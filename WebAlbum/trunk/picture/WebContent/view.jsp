@@ -1,15 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.File" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.File,jomora.net.HtmlUtil" %>
 <html>
 <head>
-<meta name="robots" content="noindex,nofollow">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%
 	String efpath = request.getParameter("efpath");
 	String filePath = jomora.io.crypt.CryptUtil.simpleDecryptString(efpath);
+	String htmlEncFilePath = HtmlUtil.HTMLEncode(filePath);
 	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
 %>
-<title><%= filePath %> - 美しいものは愛でなくちゃ</title>
+<title><%= htmlEncFilePath %> - 美しいものは愛でなくちゃ</title>
+<%
+	if (filePath.indexOf("@adult\\") != -1) {
+%>
+<script type="text/javascript" src="cookie.js"></script>
+<script type="text/javascript" src="confirm.js"></script>
+<%
+	}
+%>
 <script><!--
 var oiw;
 function resize() {
@@ -37,10 +46,15 @@ window.onresize = resize;
 //--></script>
 </head>
 <body>
-<div  align="center">
-<h4><%= filePath %></h4>
-<div style="font-size:60%;text-align:right;"><span id="percent" style="font-size:150%;"></span> &nbsp; &nbsp; 画像をクリックすると元のサイズになります。</div>
-<a href="javascript:sizeToOriginal()"><img src="<%= url %>" alt="<%= filePath %>" border="0" name="main_image" /></a><br />
+<div align="center">
+<h4><%= htmlEncFilePath %></h4>
+<div style="font-size:60%;text-align:right;"><span id="percent" style="font-size:150%;"></span> &nbsp; &nbsp; 
+<script type="text/javascript"><!--
+	document.write("画像をクリックすると元のサイズになります。");
+// --></script>
+<noscript>JavaScriptを有効にすると、画像サイズを調節できます。</noscript>
+</div>
+<a href="javascript:sizeToOriginal()"><img src="<%= url %>" alt="<%= htmlEncFilePath %>" title="<%= htmlEncFilePath %>" border="0" name="main_image" /></a><br />
 <br />
 <table border="1">
 <%
@@ -57,13 +71,18 @@ window.onresize = resize;
 		    java.util.Iterator tags = directory.getTagIterator();
 		    while (tags.hasNext()) {
 		        Tag tag = (Tag)tags.next();
-		        String desc = "&nbsp;";
-		        if (tag.getDescription() != null) {
-			        desc = tag.getDescription().trim();
-			        desc = desc.length() == 0 ? "&nbsp;" : desc;
-		        }
-		        out.println("<tr><td>" + tag.getDirectoryName() + " : " + tag.getTagType()
-		        		+ "</td><td>" + tag.getTagName() + "</td><td>" + desc + "</td></tr>");
+				try {
+			        String desc = "&nbsp;";
+			        if (tag.getDescription() != null) {
+				        desc = tag.getDescription().trim();
+				        desc = desc.length() == 0 ? "&nbsp;" : desc;
+			        }
+			        out.println("<tr><td>" + tag.getDirectoryName() + " : " + tag.getTagType()
+			        		+ "</td><td>" + tag.getTagName() + "</td><td>" + desc + "</td></tr>");
+				} catch(com.drew.metadata.MetadataException me) {
+					log("Can't read metadata from " + filePath, me);
+			        out.println("<tr><td>(can't read)</td><td>(can't read)</td><td>(can't read)</td></tr>");
+				}
 		    }
 		}
 	} catch(com.drew.imaging.jpeg.JpegProcessingException e) {

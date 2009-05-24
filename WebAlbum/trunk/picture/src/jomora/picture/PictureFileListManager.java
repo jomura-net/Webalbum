@@ -36,6 +36,9 @@ import org.apache.commons.logging.LogFactory;
 public class PictureFileListManager implements Serializable {
 
 	private static final Log log = LogFactory.getLog(PictureFileListManager.class);
+	
+	private static final int MAX_WIDTH = 90;
+	private static final int MAX_HEIGHT = 90;
 
 	/**
 	 * 本クラスのインスタンスを返す。 ServletContext内に登録されていれば、登録されているインスタンスを返す。
@@ -101,7 +104,7 @@ public class PictureFileListManager implements Serializable {
 	/**
 	 * 画像ファイル情報の集合
 	 */
-	private Map<String, FileInfo> fileInfoMap = new TreeMap<String, FileInfo>();
+	private Map<String, FileInfo> fileInfoMap = new TreeMap<String, FileInfo>(new FilePathComparator());
 
 	/*
 	 * fileInfoMapオブジェクトを格納する一時ファイル名
@@ -280,9 +283,9 @@ public class PictureFileListManager implements Serializable {
 		try {
 			fis = new FileInputStream(absoluteFilePath);
 			baos = new ByteArrayOutputStream();
-			ThumbnailFactory.createThumbnail(fis, baos, 120, 90, extension);
+			ThumbnailFactory.createThumbnail(fis, baos, MAX_WIDTH, MAX_HEIGHT, extension);
 			bytes = baos.toByteArray();
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			log.error("Can't create a thumbnail of " + filePath, e);
 		} finally {
 			try {
