@@ -20,9 +20,12 @@ if (!loadCookie("confirmed") && !confirm("The following contents include sexual 
 	saveCookie("confirmed", "true");
 }
 //--></script>
-<script type="text/javascript" src="corner.js"></script>
+<!-- script type="text/javascript" src="corner.js"></script -->
 </head>
 <body>
+
+<p align="right"><a href="/wiki/?C%A1%F4%2F%CA%C9%BB%E6%A5%C1%A5%A7%A5%F3%A5%B8%A5%E3">壁紙として利用する</a></p>
+
 <%
 	boolean viewCategory = request.getParameter("category") != null;
 	if (viewCategory) {
@@ -77,7 +80,7 @@ if (!loadCookie("confirmed") && !confirm("The following contents include sexual 
 <table align="right"><tr>
 	<td>
 		category … <a href="?category=1">フォルダ毎表示</a><br />
-		XXX … 詳細表示制限解除<br />
+		<!-- XXX … 詳細表示制限解除<br /> -->
 		<!-- check … 最新の情報に更新<br /> -->
 	</td>
 </tr></table>
