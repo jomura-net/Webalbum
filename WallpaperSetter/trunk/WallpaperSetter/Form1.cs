@@ -45,7 +45,7 @@ namespace WallpaperSetter
         static void LogEvent(string filePath)
         {
             string sSource = System.Reflection.Assembly
-                .GetExecutingAssembly().FullName;
+                .GetExecutingAssembly().GetName().Name;
             string sLog = "Application";
             string sEvent = "Changed wallpaper into \"" + filePath + "\"";
 

@@ -1,0 +1,2 @@
+﻿以下のURLに掲載されていたソースコードから、変更無く複製したファイルです。
+http://www.microsoft.com/japan/msdn/coding4fun/inthebox/wallpaper2/default.aspx
