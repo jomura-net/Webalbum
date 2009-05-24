@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+
+<web-app id="picture" version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <filter>
+  	<filter-name>ReferFilter</filter-name>
+  	<filter-class>jomora.picture.ReferFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+  	<filter-name>ReferFilter</filter-name>
+  	<servlet-name>ViewServlet</servlet-name>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>ReferFilter</filter-name>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  </filter-mapping>
+
+  <servlet>
+  	<servlet-name>ListServlet</servlet-name>
+  	<jsp-file>/WEB-INF/page/list.jsp</jsp-file>
+  </servlet>
+  <servlet>
+  	<servlet-name>ViewServlet</servlet-name>
+  	<servlet-class>jomora.picture.view.ViewServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  	<servlet-class>jomora.picture.view.RandomViewServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+  	<servlet-name>ListServlet</servlet-name>
+  	<url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ViewServlet</servlet-name>
+  	<url-pattern>/view/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  	<url-pattern>/random/*</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+  	<welcome-file>list</welcome-file>
+  </welcome-file-list>
+
+  <env-entry>
+  	<env-entry-name>PictureDir</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>D:/workspace/picture/WebContent/WEB-INF/images</env-entry-value>
+  </env-entry>
+  <env-entry>
+  	<env-entry-name>TempFilePath</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>C:/eclipse/servers/apache-tomcat-5.5.25/temp/thumbData_picture</env-entry-value>
+  </env-entry>
+
+  <env-entry>
+  	<env-entry-name>FirstTime</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>22:10:00</env-entry-value>
+  </env-entry>
+  <env-entry>
+  	<env-entry-name>Period</env-entry-name>
+  	<env-entry-type>java.lang.Long</env-entry-type>
+  	<env-entry-value>86400000</env-entry-value>
+  </env-entry>
+
+</web-app>
