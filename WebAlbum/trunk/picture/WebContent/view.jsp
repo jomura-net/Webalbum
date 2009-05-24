@@ -1,14 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=Shift_JIS" pageEncoding="Shift_JIS"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.File" %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%
 	String efpath = request.getParameter("efpath");
 	String filePath = jomora.io.crypt.CryptUtil.simpleDecryptString(efpath);
 	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
 %>
-<title><%= filePath %> - ���������͈̂��łȂ�����</title>
+<title><%= filePath %> - 美しいものは愛でなくちゃ</title>
 <script><!--
 var oiw;
 function resize() {
@@ -37,8 +38,8 @@ window.onresize = resize;
 </head>
 <body>
 <div  align="center">
-<h4><%= filePath %> <span id="percent"></span></h4>
-<div style="font-size:60%;text-align:right;">�摜���N���b�N����ƌ��̃T�C�Y�ɂȂ�܂��B</div>
+<h4><%= filePath %></h4>
+<div style="font-size:60%;text-align:right;"><span id="percent" style="font-size:150%;"></span> &nbsp; &nbsp; 画像をクリックすると元のサイズになります。</div>
 <a href="javascript:sizeToOriginal()"><img src="<%= url %>" alt="<%= filePath %>" border="0" name="main_image" /></a><br />
 <br />
 <table border="1">

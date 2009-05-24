@@ -37,8 +37,6 @@ public class PictureFileListManager implements Serializable {
 
 	private static final Log log = LogFactory.getLog(PictureFileListManager.class);
 
-	private static final String tmpFileName = System.getProperty("java.io.tmpdir") + File.separator + "fileInfoMap";
-
 	/**
 	 * 本クラスのインスタンスを返す。 ServletContext内に登録されていれば、登録されているインスタンスを返す。
 	 * 登録されていなければ、新たに生成し、ServletContextに登録する。
@@ -105,6 +103,11 @@ public class PictureFileListManager implements Serializable {
 	 */
 	private Map<String, FileInfo> fileInfoMap = new TreeMap<String, FileInfo>();
 
+	/*
+	 * fileInfoMapオブジェクトを格納する一時ファイル名
+	 */
+	private String tmpFileName;
+
 	/**
 	 * コンストラクタ。 newInstance()メソッドから呼び出される。
 	 */
@@ -137,14 +140,18 @@ public class PictureFileListManager implements Serializable {
 	private void setPictureDir() throws FileNotFoundException, IOException {
 		try {
 			InitialContext context = new InitialContext();
-			String _pictureDir = (String)context.lookup("java:comp/env/pictureDir");
+
+			String _pictureDir = (String)context.lookup("java:comp/env/PictureDir");
 			File dir = new File(_pictureDir);
 			if (!dir.exists()) {
 				throw new FileNotFoundException(_pictureDir + "is not found.");
 			}
 			pictureDir = dir.getAbsolutePath();
+
+			this.tmpFileName = (String)context.lookup("java:comp/env/TempFilePath");
+
 		} catch (NamingException e) {
-			throw new IOException("The parameter 'pictureDir' can not be read.");
+			throw new IOException("The parameter 'PictureDir' or 'TempFilePath' can not be read.");
 		}
 	}
 

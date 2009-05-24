@@ -32,7 +32,7 @@ public class ReferFilter implements Filter {
 		String referer = request.getHeader("referer");
 		String host = request.getHeader("host");
 		if (referer == null || referer.indexOf(host) < 0) {
-			log.warn("Illegal access from " + request.getRemoteAddr());
+			log.debug("Illegal access from " + request.getRemoteAddr());
 			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		} else {
 			chain.doFilter(request, response);

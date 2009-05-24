@@ -14,6 +14,10 @@
   	<filter-name>ReferFilter</filter-name>
   	<servlet-name>ViewServlet</servlet-name>
   </filter-mapping>
+  <filter-mapping>
+  	<filter-name>ReferFilter</filter-name>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  </filter-mapping>
 
   <servlet>
   	<servlet-name>ListServlet</servlet-name>
@@ -22,6 +26,10 @@
   <servlet>
   	<servlet-name>ViewServlet</servlet-name>
   	<servlet-class>jomora.picture.view.ViewServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  	<servlet-class>jomora.picture.view.RandomViewServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -32,15 +40,24 @@
   	<servlet-name>ViewServlet</servlet-name>
   	<url-pattern>/view/*</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RandomViewServlet</servlet-name>
+  	<url-pattern>/random/*</url-pattern>
+  </servlet-mapping>
 
   <welcome-file-list>
   	<welcome-file>list</welcome-file>
   </welcome-file-list>
 
   <env-entry>
-  	<env-entry-name>pictureDir</env-entry-name>
+  	<env-entry-name>PictureDir</env-entry-name>
   	<env-entry-type>java.lang.String</env-entry-type>
-  	<env-entry-value>D:/sexy_girls</env-entry-value>
+  	<env-entry-value>D:/picture</env-entry-value>
+  </env-entry>
+  <env-entry>
+  	<env-entry-name>TempFilePath</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>C:/Tomcat/temp/thumbData_picture</env-entry-value>
   </env-entry>
 
 </web-app>
