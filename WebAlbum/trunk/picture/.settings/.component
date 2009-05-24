@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId">
+    <wb-module deploy-name="picture">
+        <wb-resource source-path="/src" deploy-path="/WEB-INF/classes"/>
+        <wb-resource source-path="/WebContent" deploy-path="/"/>
+        <wb-resource deploy-path="/WEB-INF" source-path="WebContent/WEB-INF"/>
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="WebContent/WEB-INF/web.xml"/>
+        <wb-resource deploy-path="/WEB-INF/lib" source-path="WebContent/WEB-INF/lib"/>
+        <wb-resource deploy-path="/WEB-INF/lib/metadata-extractor-2.2.2.jar" source-path="WebContent/WEB-INF/lib/metadata-extractor-2.2.2.jar"/>
+        <wb-resource deploy-path="/view.jsp" source-path="WebContent/view.jsp"/>
+        <wb-resource deploy-path="/index.jsp" source-path="WebContent/index.jsp"/>
+        <wb-resource deploy-path="/META-INF" source-path="WebContent/META-INF"/>
+        <wb-resource deploy-path="/META-INF/MANIFEST.MF" source-path="WebContent/META-INF/MANIFEST.MF"/>
+        <wb-resource deploy-path="/WEB-INF/page" source-path="WebContent/WEB-INF/page"/>
+        <wb-resource deploy-path="/WEB-INF/page/list.jsp" source-path="WebContent/WEB-INF/page/list.jsp"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora" source-path="src/jomora"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io" source-path="src/jomora/io"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io/File.java" source-path="src/jomora/io/File.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io/image" source-path="src/jomora/io/image"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io/image/ThumbnailFactory.java" source-path="src/jomora/io/image/ThumbnailFactory.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io/crypt" source-path="src/jomora/io/crypt"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/io/crypt/CryptUtil.java" source-path="src/jomora/io/crypt/CryptUtil.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture" source-path="src/jomora/picture"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/PictureFileListManager.java" source-path="src/jomora/picture/PictureFileListManager.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/list" source-path="src/jomora/picture/list"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/list/ListServlet.java" source-path="src/jomora/picture/list/ListServlet.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/ReferFilter.java" source-path="src/jomora/picture/ReferFilter.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/FileInfo.java" source-path="src/jomora/picture/FileInfo.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/view" source-path="src/jomora/picture/view"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/picture/view/ViewServlet.java" source-path="src/jomora/picture/view/ViewServlet.java"/>
+        <wb-resource deploy-path="/WEB-INF/classes/jomora/ImageTest.java" source-path="src/jomora/ImageTest.java"/>
+        <wb-resource deploy-path="/WEB-INF/lib/commons-logging.jar" source-path="WebContent/WEB-INF/lib/commons-logging.jar"/>
+        <property name="context-root" value="picture"/>
+        <property name="java-output-path" value="/build/classes/"/>
+    </wb-module>
+</project-modules>
+
