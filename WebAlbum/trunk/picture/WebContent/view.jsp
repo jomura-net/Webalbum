@@ -92,5 +92,14 @@ window.onresize = resize;
 </table>
 </div>
 
+<br />
+<%
+    String adult = "";
+    if (htmlEncFilePath.indexOf("@adult") != -1) {
+    	adult = "?adult";
+    }
+%>
+<div style="font-size:80%; text-align:right;"><a href="list<%= adult %>">一覧にイク</a> | <a href="javascript:(window.open('','_top').opener=top).close();">閉じる</a></div>
+
 </body>
 </html>
