@@ -21,7 +21,7 @@
 <body>
 
 <div class="options">
-<a href="m&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#109;o&#114;a&#64;&#106;omor&#97;.n&#101;&#116;?subject=[jomora.net:picture]"><img src="images/mail.gif" alt="Mail me!" style="vertical-align:baseline;" /> Mail me!</a>
+<a href="&#109;&#97;&#105;l&#116;&#111;&#58;&#107;az&#64;&#106;omur&#97;&#46;n&#101;&#116;?subject=[jomura.net:picture]"><img src="images/mail.gif" alt="Mail me!" style="vertical-align:baseline;" /> Mail me!</a>
  &nbsp; &nbsp; &nbsp; &nbsp; 
 <a href="http://jomura.net/wiki/?C%EF%BC%83%2F%E5%A3%81%E7%B4%99%E3%83%81%E3%82%A7%E3%83%B3%E3%82%B8%E3%83%A3"><img src="images/download.gif" alt="Get WallpaperSetter!" style="vertical-align:baseline;" /> Get WallpaperSetter!</a>
 </div>

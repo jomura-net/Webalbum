@@ -50,7 +50,7 @@ function addImages(c){
 
 	$.getJSON("List.json?label=" + label + adult, function(json){
 		  jQuery.each(json, function(i, item) {
-			   var imghtml = "<a href=\"" + item.linkUrl + "\" target=\"_blank\">\n<img src=\""
+			   var imghtml = "<a href=\"" + item.linkUrl + adult + "\" target=\"_blank\">\n<img src=\""
 			       + item.imageUrl + "\" alt=\"" + item.title + "\" title=\""
 			       + item.title + "\" /></a>";
 			   $(c).children('div').append(imghtml);

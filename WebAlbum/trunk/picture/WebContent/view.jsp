@@ -95,7 +95,7 @@ window.onresize = resize;
 <br />
 <%
     String adult = "";
-    if (htmlEncFilePath.indexOf("@adult") != -1) {
+    if (null != request.getParameter("adult")) {
     	adult = "?adult";
     }
 %>
