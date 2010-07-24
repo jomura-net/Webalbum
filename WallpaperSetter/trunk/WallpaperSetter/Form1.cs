@@ -7,6 +7,7 @@ using System.IO;
 using System.Web;
 using System.Diagnostics;
 using System.Configuration;
+using System.Drawing.Drawing2D;
 
 namespace WallpaperSetter
 {
@@ -14,15 +15,26 @@ namespace WallpaperSetter
     {
         public Form1()
         {
-            //InitializeComponent();
-            string filePath;
-            Bitmap bmp = GetImage(out filePath);
-            LogEvent(filePath);
-            Cycler.WindowsAPI.SetDesktopBackground(bmp,
-                Cycler.DesktopBackgroundStyle.Centered);
+            try
+            {
+                //InitializeComponent();
+                string filePath;
+                Bitmap bmp = GetImage(out filePath);
+                LogEvent(filePath);
+                Cycler.WindowsAPI.SetDesktopBackground(bmp,
+                    Cycler.DesktopBackgroundStyle.Centered);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error Occured",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error, 
+                    MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+            }
         }
 
-        static Bitmap GetImage(out string filePath)
+        Bitmap GetImage(out string filePath)
         {
             string image_url = "http://jomura.net/picture/random";
             string adult = ConfigurationSettings.AppSettings["adult"];
@@ -33,16 +45,47 @@ namespace WallpaperSetter
             using (WebClient wc = new WebClient())
             {
                 wc.Headers.Add("Referer", "http://jomura.net/picture/");
+                Bitmap bitmap = null;
                 using (Stream imageStrm = wc.OpenRead(image_url))
                 {
                     filePath = Uri.UnescapeDataString(
                         wc.ResponseHeaders["PictureFilePath"]);
-                    return new Bitmap(imageStrm);
+                    bitmap = new Bitmap(imageStrm);
                 }
+                return changeSize(bitmap);
             }
         }
 
-        static void LogEvent(string filePath)
+        Bitmap changeSize(Bitmap src)
+        {
+            string fit = ConfigurationSettings.AppSettings["FitScreen"];
+            if (string.IsNullOrEmpty(fit) || !Boolean.Parse(fit))
+            {
+                return src;
+            }
+
+            double srcAspect = (double)src.Width / src.Height;
+            double screenAspect = (double)Screen.PrimaryScreen.Bounds.Width / Screen.PrimaryScreen.Bounds.Height;
+
+            int destWidth = Screen.PrimaryScreen.Bounds.Width;
+            int destHight = Screen.PrimaryScreen.Bounds.Height;
+            if (srcAspect > screenAspect)
+            {
+                destHight = (int)(Screen.PrimaryScreen.Bounds.Width / srcAspect);
+            }
+            else
+            {
+                destWidth = (int)(Screen.PrimaryScreen.Bounds.Height * srcAspect);
+            }
+
+            Bitmap dest = new Bitmap(destWidth, destHight);
+            Graphics g = Graphics.FromImage(dest);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(src, 0, 0, destWidth, destHight);
+            return dest;
+        }
+
+        void LogEvent(string filePath)
         {
             string sSource = System.Reflection.Assembly
                 .GetExecutingAssembly().GetName().Name;
