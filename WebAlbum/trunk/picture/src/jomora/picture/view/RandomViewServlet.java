@@ -17,7 +17,8 @@ import jomora.picture.PictureFileListManager;
  *
  */
 public class RandomViewServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
-	
+	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PictureFileListManager pflm = PictureFileListManager.getInstance(getServletContext());
 		Map<String,FileInfo> fileInfoMap = pflm.getFileInfoMap();

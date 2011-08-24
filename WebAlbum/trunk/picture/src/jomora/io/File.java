@@ -10,8 +10,9 @@ import java.net.URI;
  * @author Jomora(http://jomora.bne.jp/)
  */
 public class File extends java.io.File {
+	private static final long serialVersionUID = 1L;
 
-    public File(String arg0) {
+	public File(String arg0) {
         super(arg0);
     }
 

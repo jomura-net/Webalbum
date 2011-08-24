@@ -22,6 +22,7 @@ import java.util.TreeMap;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
+
 import jomora.io.crypt.CryptUtil;
 import jomora.io.image.ThumbnailFactory;
 
@@ -34,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @author jomora
  */
 public class PictureFileListManager implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private static final Log log = LogFactory.getLog(PictureFileListManager.class);
 	

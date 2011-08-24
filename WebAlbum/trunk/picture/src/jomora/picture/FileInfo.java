@@ -3,6 +3,8 @@ package jomora.picture;
 import java.io.Serializable;
 
 public class FileInfo implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private String encodeFilePath;
     private byte[] thumbnail;
 

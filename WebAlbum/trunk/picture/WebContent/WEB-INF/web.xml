@@ -26,7 +26,11 @@
   <servlet>
   	<servlet-name>ViewServlet</servlet-name>
   	<servlet-class>jomora.picture.view.ViewServlet</servlet-class>
-  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>TimerServlet</servlet-name>
+    <servlet-class>jomora.picture.schedule.TimerServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
   	<servlet-name>RandomViewServlet</servlet-name>
