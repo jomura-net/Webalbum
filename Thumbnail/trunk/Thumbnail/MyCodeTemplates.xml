@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="gettercomment_context" deleted="false" description="getter メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return ${bare_field_name}
+ */</template><template autoinsert="true" context="settercomment_context" deleted="false" description="setter メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} セットする ${bare_field_name}
+ */</template><template autoinsert="true" context="constructorcomment_context" deleted="false" description="作成済みコンストラクターのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * ${tags}
+ */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="作成済みの Java ファイルのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment"/><template autoinsert="true" context="typecomment_context" deleted="false" description="作成済みの型のコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**
+ * @author ${user}
+ *
+ * ${tags}
+ */</template><template autoinsert="true" context="fieldcomment_context" deleted="false" description="フィールドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
+ * 
+ */</template><template autoinsert="true" context="methodcomment_context" deleted="false" description="オーバーライドしないメソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
+ * ${tags}
+ */</template><template autoinsert="true" context="overridecomment_context" deleted="false" description="オーバーライドするメソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment">/* (非 Javadoc)
+ * ${see_to_overridden}
+ */</template><template autoinsert="true" context="delegatecomment_context" deleted="false" description="委譲メソッドのコメント" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template><template autoinsert="true" context="newtype_context" deleted="false" description="新規作成ファイル" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.newtype" name="newtype">${filecomment}
+${package_declaration}
+
+${typecomment}
+${type_declaration}</template><template autoinsert="true" context="classbody_context" deleted="false" description="新規クラス型本文中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.classbody" name="classbody">
+</template><template autoinsert="true" context="interfacebody_context" deleted="false" description="新規インターフェース型本文中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.interfacebody" name="interfacebody">
+</template><template autoinsert="true" context="enumbody_context" deleted="false" description="新規列挙型本文中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.enumbody" name="enumbody">
+</template><template autoinsert="true" context="annotationbody_context" deleted="false" description="新規注釈型本文中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.annotationbody" name="annotationbody">
+</template><template autoinsert="true" context="catchblock_context" deleted="false" description="新規 catch ブロック中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.catchblock" name="catchblock">// ${todo} 自動生成された catch ブロック
+${exception_var}.printStackTrace();</template><template autoinsert="true" context="methodbody_context" deleted="false" description="作成済みメソッド・スタブ中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodbody" name="methodbody">// ${todo} 自動生成されたメソッド・スタブ
+${body_statement}</template><template autoinsert="true" context="constructorbody_context" deleted="false" description="作成済みコンストラクター・スタブ中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorbody" name="constructorbody">${body_statement}
+// ${todo} 自動生成されたコンストラクター・スタブ</template><template autoinsert="true" context="getterbody_context" deleted="false" description="作成済み getter 中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.getterbody" name="getterbody">return ${field};</template><template autoinsert="true" context="setterbody_context" deleted="false" description="作成済み setter 中のコード" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.setterbody" name="setterbody">${field} = ${param};</template><template autoinsert="true" context="gettercomment_context" deleted="false" description="getter 関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return ${bare_field_name}
+ */</template><template autoinsert="true" context="settercomment_context" deleted="false" description="setter 関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} セットする ${bare_field_name}
+ */</template><template autoinsert="true" context="constructorcomment_context" deleted="false" description="作成済みコンストラクターのコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * ${tags}
+ */</template><template autoinsert="true" context="filecomment_context" deleted="false" description="作成済みの JavaScript ファイルのコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.filecomment" name="filecomment">/**
+ * 
+ */</template><template autoinsert="true" context="typecomment_context" deleted="false" description="作成済みの型のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.typecomment" name="typecomment">/**
+ * @author ${user}
+ *
+ * ${tags}
+ */</template><template autoinsert="true" context="fieldcomment_context" deleted="false" description="変数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
+ * 
+ */</template><template autoinsert="true" context="methodcomment_context" deleted="false" description="オーバーライドしない関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
+ * ${tags}
+ */</template><template autoinsert="true" context="overridecomment_context" deleted="false" description="オーバーライドする関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.overridecomment" name="overridecomment">/* (非 Jsdoc)
+ * ${see_to_overridden}
+ */</template><template autoinsert="true" context="delegatecomment_context" deleted="false" description="委譲関数のコメント" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template><template autoinsert="true" context="newtype_context" deleted="false" description="新規作成ファイル" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.newtype" name="newtype">${filecomment}
+${package_declaration}
+
+${typecomment}
+${type_declaration}</template><template autoinsert="true" context="classbody_context" deleted="false" description="新規クラス型本文中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.classbody" name="classbody">
+</template><template autoinsert="true" context="catchblock_context" deleted="false" description="新規 catch ブロック中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.catchblock" name="catchblock">// ${todo} 自動生成された catch ブロック
+${exception_var}.printStackTrace();</template><template autoinsert="true" context="methodbody_context" deleted="false" description="作成済み関数スタブ中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.methodbody" name="methodbody">// ${todo} 自動生成された関数スタブ
+${body_statement}</template><template autoinsert="true" context="constructorbody_context" deleted="false" description="作成済みコンストラクター・スタブ中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.constructorbody" name="constructorbody">${body_statement}
+// ${todo} 自動生成されたコンストラクター・スタブ</template><template autoinsert="true" context="getterbody_context" deleted="false" description="作成済み getter 中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.getterbody" name="getterbody">return ${field};</template><template autoinsert="true" context="setterbody_context" deleted="false" description="作成済み setter 中のコード" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.setterbody" name="setterbody">${field} = ${param};</template></templates>

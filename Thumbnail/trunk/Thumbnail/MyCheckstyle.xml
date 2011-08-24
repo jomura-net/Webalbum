@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: MyCheckstyle
+    Description: none
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <property name="charset" value="UTF-8"/>
+        <module name="JavadocMethod">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッド宣言のJavaDocをチェックします。"/>
+            <property name="logLoadErrors" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
+        </module>
+        <module name="JavadocType">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="クラス/インターフェース宣言のJavaDocをチェックします。"/>
+            <property name="id" value="4.5-22"/>
+            <property name="scope" value="protected"/>
+        </module>
+        <module name="JavadocVariable">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="変数がJavaDocコメントを持つことをチェックします。"/>
+            <property name="id" value="4.5-22"/>
+            <property name="scope" value="protected"/>
+        </module>
+        <module name="JavadocStyle">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="JavaDocコメントの妥当性をチェックします。"/>
+            <property name="scope" value="protected"/>
+            <property name="checkEmptyJavadoc" value="true"/>
+            <property name="checkFirstSentence" value="false"/>
+            <property name="tokens" value="INTERFACE_DEF,CLASS_DEF,CTOR_DEF,METHOD_DEF,VARIABLE_DEF"/>
+        </module>
+        <module name="MethodName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッド名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="メソッド名は、小文字で始める。記号や全角文字は使用しない。"/>
+        </module>
+        <module name="PackageName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="パッケージ名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="パッケージ名は英小文字及びアンダースコア「_」のみを使用する。"/>
+            <property name="format" value="^[a-z]+(\.([a-z]|_)*)*$"/>
+        </module>
+        <module name="TypeName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="クラス名／インターフェース名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="クラス名・インターフェース名は大文字で始める。全角文字、英記号は使用しない。"/>
+        </module>
+        <module name="AvoidStarImport">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="*を使用したインポート文がないことをチェックします。"/>
+        </module>
+        <module name="UnusedImports">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="使用されないインポート文をチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="FileLength">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ソースファイルの行数をチェックします。"/>
+            <property name="max" value="1000"/>
+        </module>
+        <module name="MethodLength">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッドやコンストラクタの行数をチェックします。"/>
+            <property name="tokens" value="CTOR_DEF,METHOD_DEF"/>
+        </module>
+        <module name="EmptyForIteratorPad">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Iteratorのコード(for文)において、丸括弧内のパディングをチェックします。"/>
+        </module>
+        <module name="MethodParamPad">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッド定義の後ろにスペースが存在しないことをチェックします。"/>
+            <property name="tokens" value="CTOR_DEF,METHOD_CALL,METHOD_DEF,LITERAL_NEW,SUPER_CTOR_CALL"/>
+        </module>
+        <module name="NoWhitespaceAfter">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="指定されているtokenの後ろにスペースが存在しないことをチェックします。"/>
+            <property name="tokens" value="LNOT,DOT,BNOT,DEC,UNARY_MINUS,UNARY_PLUS,INC,ARRAY_INIT"/>
+        </module>
+        <module name="NoWhitespaceBefore">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="指定されているtokenの前にスペースが存在しないことをチェックします。"/>
+        </module>
+        <module name="OperatorWrap">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="改行する際に、改行後に演算子ではじまっていることをチェックします。"/>
+            <property name="tokens" value="COLON,NOT_EQUAL,QUESTION,DIV,BXOR,MINUS,STAR,BAND,LAND,MOD,PLUS,LT,SL,LE,EQUAL,GT,GE,SR,BSR,BOR,LOR,LITERAL_INSTANCEOF"/>
+        </module>
+        <module name="ParenPad">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="括弧使用時のパディングがないことをチェックします。"/>
+            <property name="tokens" value="LPAREN,RPAREN,CTOR_CALL,METHOD_CALL,SUPER_CTOR_CALL"/>
+        </module>
+        <module name="TypecastParenPad">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="Typecastの括弧のパディングがないことをチェックします。"/>
+            <property name="tokens" value="RPAREN,TYPECAST"/>
+        </module>
+        <module name="WhitespaceAfter">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="指定されたtokenの後ろにスペースが存在することをチェックします。"/>
+        </module>
+        <module name="WhitespaceAround">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="指定されたtokenがスペースで囲まれていることをチェックします。"/>
+            <property name="tokens" value="ASSIGN,BAND,BAND_ASSIGN,BOR,BOR_ASSIGN,BSR,BSR_ASSIGN,BXOR,BXOR_ASSIGN,COLON,DIV,DIV_ASSIGN,EQUAL,GE,GT,LAND,LCURLY,LE,LITERAL_ASSERT,LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_RETURN,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,LOR,LT,MINUS,MINUS_ASSIGN,MOD,MOD_ASSIGN,NOT_EQUAL,PLUS,PLUS_ASSIGN,QUESTION,RCURLY,SL,SLIST,SL_ASSIGN,SR,SR_ASSIGN,STAR,STAR_ASSIGN,LITERAL_ASSERT,TYPE_EXTENSION_AND"/>
+        </module>
+        <module name="ModifierOrder">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="修飾子の指定順序をチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="AvoidNestedBlocks">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ネストしたブロックをチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="LeftCurly">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="左大括弧｛の位置をチェックします。行末に存在することをチェックします。"/>
+            <property name="tokens" value="LITERAL_CATCH,LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_FOR,LITERAL_IF,LITERAL_SWITCH,LITERAL_SYNCHRONIZED,LITERAL_TRY,LITERAL_WHILE,INTERFACE_DEF,CLASS_DEF,CTOR_DEF,METHOD_DEF"/>
+        </module>
+        <module name="NeedBraces">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="指定されたtokenで大括弧が使用されているかチェックします。"/>
+            <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
+        </module>
+        <module name="RightCurly">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="右大括弧｝の位置をチェックします。"/>
+            <property name="tokens" value="LITERAL_CATCH,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_TRY"/>
+        </module>
+        <module name="EmptyStatement">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="；だけの空の文をチェックします。"/>
+        </module>
+        <module name="HiddenField">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ローカル変数やパラメータが同じクラスで定義されたフィールドを隠していないかチェックします。"/>
+            <property name="severity" value="ignore"/>
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+        </module>
+        <module name="InnerAssignment">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ソースの可読性を考慮し、代入表現をチェックします。"/>
+            <property name="severity" value="ignore"/>
+            <property name="tokens" value="DIV_ASSIGN,BXOR_ASSIGN,STAR_ASSIGN,BAND_ASSIGN,MOD_ASSIGN,PLUS_ASSIGN,SL_ASSIGN,ASSIGN,MINUS_ASSIGN,SR_ASSIGN,BSR_ASSIGN,BOR_ASSIGN"/>
+        </module>
+        <module name="SimplifyBooleanExpression">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="過度に複雑に記述されたBooleanの表現をチェックします。"/>
+        </module>
+        <module name="FinalClass">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="privateなコンストラクタのみを持つクラスの修飾子がfinalであるかチェックします。"/>
+        </module>
+        <module name="VisibilityModifier">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="インスタンス変数はprivateまたはprotectedにする。"/>
+            <property name="protectedAllowed" value="true"/>
+        </module>
+        <module name="AnonInnerLength">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="匿名インナークラスの行数をチェックします。"/>
+            <property name="max" value="150"/>
+        </module>
+        <module name="CovariantEquals">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="共変なequals()メソッド、オーバーライドされたequals()メソッドを定義するクラスをチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="UnnecessaryParentheses">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="不要な括弧を使用していないかチェックします。"/>
+        </module>
+        <module name="ArrayTypeStyle">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="配列の定義スタイルがJava-styleかチェックします。"/>
+        </module>
+        <module name="AbstractClassName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="抽象クラス名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="抽象クラス名には“Abstract”等の特殊な接頭語は使用しない。"/>
+            <property name="format" value="^[^(Abstract)].*$"/>
+        </module>
+        <module name="ConstantName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="定数名（Static, final　指定)をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="定数名は大文字及び数字を用い、単語間をアンダースコア「_」で結ぶ。"/>
+        </module>
+        <module name="LocalFinalVariableName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ローカル変数名(final 指定）をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="定数名は大文字及び数字を用い、単語間をアンダースコア「_」で結ぶ。"/>
+            <property name="format" value="[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+        </module>
+        <module name="LocalVariableName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ローカル変数名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="ローカル変数名は、小文字で始める。英記号や全角文字は使用しない。"/>
+        </module>
+        <module name="MemberName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="フィールド名（非static)をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="フィールド名は、小文字で始める。"/>
+        </module>
+        <module name="ParameterName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="パラメータ名をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="メソッドパラメータは、小文字で始める。英記号や全角文字は使用しない。"/>
+        </module>
+        <module name="StaticVariableName">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="フィールド名（static, 非final）をチェックします。"/>
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.customMessage" value="クラス変数は、英小文字で始める。英記号や、全角文字は使用しない。"/>
+        </module>
+        <module name="MissingSwitchDefault">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="switch文にcase defaultが存在することをチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="FinalLocalVariable">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="値が変化されないローカル変数に対し、finalが指定されているかチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="CyclomaticComplexity">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="サイクロマティック複雑度をチェックします。"/>
+        </module>
+        <module name="NestedIfDepth">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ネストされたif-elseブロックの深さをチェックします。深さは３です。"/>
+            <property name="max" value="3"/>
+        </module>
+        <module name="NestedTryDepth">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ネストされたtry-catchブロックの深さをチェックします。深さは３です。"/>
+            <property name="max" value="3"/>
+        </module>
+        <module name="NPathComplexity">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッドの実行パスの最大値をチェックします。"/>
+        </module>
+        <module name="Indentation">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="インデントをチェックします。"/>
+        </module>
+        <module name="TabCharacter">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ソースコード内にタブ文字が存在するかをチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="LineLength">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="各行の文字数をチェックします。"/>
+            <property name="max" value="120"/>
+        </module>
+        <module name="DeclarationOrder">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="フィールドを宣言する順序をチェックします。"/>
+        </module>
+        <module name="MultipleVariableDeclarations">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="複数の変数宣言が同じ行にされていないかをチェックします。"/>
+        </module>
+        <module name="MagicNumber">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="リテラルは使用していないことをチェックします。"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="EmptyBlock">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="空のブロックをチェックします。"/>
+            <property name="option" value="text"/>
+        </module>
+        <module name="TodoComment">
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="HideUtilityClassConstructor">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="ユーティリティクラスがpublicなコンストラクタを持っていないかチェックします。"/>
+        </module>
+        <module name="ParameterNumber">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="メソッドの引数の数をチェックします。"/>
+            <property name="severity" value="info"/>
+            <property name="max" value="6"/>
+        </module>
+        <module name="BooleanExpressionComplexity">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="論理演算子の数をチェックします。最大４個以内です。"/>
+            <property name="tokens" value="LAND,LOR"/>
+        </module>
+    </module>
+</module>

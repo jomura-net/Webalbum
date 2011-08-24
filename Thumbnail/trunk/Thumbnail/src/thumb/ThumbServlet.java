@@ -1,6 +1,7 @@
 package thumb;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,16 +10,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import jomora.io.File;
 import jomora.io.IOUtils;
 import jomora.io.image.ThumbnailFactory;
-
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
@@ -34,23 +32,19 @@ import org.apache.commons.fileupload.FileUploadException;
 public class ThumbServlet extends HttpServlet {
 
     /**
+     * サムネイル画像のデフォルト幅(pixel).
+     */
+    protected static final int MAX_WIDTH = 120;
+    /**
+     * サムネイル画像のデフォルト高さ(pixel).
+     */
+    protected static final int MAX_HEIGHT = 90;
+
+    /**
      * 直列化ID.
      */
     private static final long serialVersionUID = -496429029995188148L;
 
-    /**
-     * サムネイル画像のデフォルト幅(pixel).
-     */
-    private static final int MAX_WIDTH = 120;
-    /**
-     * サムネイル画像のデフォルト高さ(pixel).
-     */
-    private static final int MAX_HEIGHT = 90;
-
-    /**
-     * ファイルアップロード用のユーティリティクラス.
-     */
-    private transient DiskFileUpload dfu = new DiskFileUpload();
     /**
      * アップロードファイルの最大サイズ.
      */
@@ -69,6 +63,10 @@ public class ThumbServlet extends HttpServlet {
      * アップロードファイルのヘッダ文字コード.
      */
     private static final String HEADER_ENCODING = "Windows-31J";
+    /**
+     * ファイルアップロード用のユーティリティクラス.
+     */
+    private transient DiskFileUpload dfu = new DiskFileUpload();
 
     /**
      * 初期処理.
@@ -76,7 +74,7 @@ public class ThumbServlet extends HttpServlet {
      *  最大ファイルサイズ、一時保管ディレクトリ、ヘッダ文字コード等を設定する。
      */
     @Override
-    public final void init() {
+    public void init() {
         dfu.setSizeMax(SIZE_MAX);
         dfu.setSizeThreshold(SIZE_THRESHOLD);
         dfu.setRepositoryPath(REPOSITORY_PATH);
@@ -91,41 +89,39 @@ public class ThumbServlet extends HttpServlet {
      * @throws IOException 入出力例外
      */
     @Override
-    protected final void doGet(
-    		final HttpServletRequest request,
-    		final HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
     	throws ServletException, IOException {
 
-		request.getSession(false);
+        request.getSession(false);
 
-        // デフォルトのサムネイル画像サイズ
-        int maxThumbWidth = MAX_WIDTH;
-        int maxThumbHeight = MAX_HEIGHT;
+        // サムネイル画像の幅を決定する。
+        int maxThumbWidth = getThumbnailWidth(request.getParameter("mtw"));
 
-        // サムネイル画像の最大幅を決定する。
-        if (request.getParameter("mtw") != null) {
-            try {
-                maxThumbWidth = Integer.parseInt(request.getParameter("mtw"));
-            } catch (NumberFormatException nfe) {
-                String message = "param:mtw needs number format.";
-                log(message);
-                throw new ServletException(message, nfe);
-            }
-        }
-        // サムネイル画像の最大高さを決定する。
-        if (request.getParameter("mth") != null) {
-            try {
-                maxThumbHeight = Integer.parseInt(request.getParameter("mth"));
-            } catch (NumberFormatException nfe) {
-                String message = "param:mth needs number format.";
-                log(message);
-                throw new ServletException(message, nfe);
-            }
-        }
+        // サムネイル画像の高さを決定する。
+        int maxThumbHeight = getThumbnailHeight(request.getParameter("mth"));
 
         // 画像ファイルのURL文字列
         String pathStr = request.getParameter("path");
+
+        outputThumbnail(response, maxThumbWidth, maxThumbHeight, pathStr);
+    }
+
+    /**
+     * サムネイルを出力します。
+     * @param response response
+     * @param maxThumbWidth maxThumbWidth
+     * @param maxThumbHeight maxThumbHeight
+     * @param pathStr pathStr
+     * @throws ServletException no-support format
+     * @throws IOException image not found
+     */
+    protected void outputThumbnail(HttpServletResponse response,
+            int maxThumbWidth, int maxThumbHeight, String pathStr)
+        throws ServletException, IOException {
+
+        // プラットフォームに画像読み込みサポートがあるかどうかチェック。
         String extension = File.getExtension(pathStr);
+//        log("extension:" + extension);
 
         InputStream is = null;
         ByteArrayOutputStream baos = null;
@@ -138,30 +134,24 @@ public class ThumbServlet extends HttpServlet {
             ThumbnailFactory.createThumbnail(is, baos,
                     maxThumbWidth, maxThumbHeight, extension);
             thumbnailBytes = baos.toByteArray();
-        /*
-        } catch (MalformedURLException murle) {
-            String message = "param:path needs a correct URL.";
-            log(message);
-            throw new ServletException(message, murle);
-        } catch (FileNotFoundException fnfe) {
-            String message = "param:path needs a correct URL.";
-            log(message);
-            throw new ServletException(message, fnfe);
-        */
-        } catch (IllegalArgumentException iae) {
-        	response.sendError(
-        			HttpServletResponse.SC_BAD_REQUEST, iae.getMessage());
-        	return;
-        } catch (IOException ioe) {
-        	response.sendError(
-        			HttpServletResponse.SC_NOT_FOUND, ioe.getMessage());
-        	return;
-        } finally {
-        	IOUtils.closeQuietly(is);
-        	IOUtils.closeQuietly(baos);
-        }
 
-        response.getOutputStream().write(thumbnailBytes);
+            response.getOutputStream().write(thumbnailBytes);
+//        } catch (MalformedURLException murle) {
+//            String message = "param:path needs a correct URL.";
+//            log(message);
+//            throw new ServletException(message, murle);
+//        } catch (FileNotFoundException fnfe) {
+//            String message = "param:path needs a correct URL.";
+//            log(message);
+//            throw new ServletException(message, fnfe);
+        } catch (IllegalArgumentException iae) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, iae.getMessage());
+        } catch (IOException ioe) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, ioe.getMessage());
+        } finally {
+            IOUtils.closeQuietly(is);
+            IOUtils.closeQuietly(baos);
+        }
     }
 
     /**
@@ -171,13 +161,11 @@ public class ThumbServlet extends HttpServlet {
      * @throws ServletException サーブレット例外
      * @throws IOException 入出力例外
      */
-	@Override
-    public final void doPost(
-    		final HttpServletRequest request,
-    		final HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 		
-		request.getSession(false);
+        request.getSession(false);
 
         // POSTが enctype="multipart/form-data" かどうかチェックする。
         if (!FileUploadBase.isMultipartContent(request)) {
@@ -186,13 +174,75 @@ public class ThumbServlet extends HttpServlet {
             throw new ServletException(message);
         }
 
-        // デフォルトのサムネイル画像サイズ
-        int maxThumbWidth = MAX_WIDTH;
-        int maxThumbHeight = MAX_HEIGHT;
-
         // パラメータ取り出し処理
-        FileItem uploadFileItem = null;
         Map<String, String> paramMap = new HashMap<String, String>();
+        FileItem uploadFileItem = extractParameters(request, paramMap);
+
+        // アップロードされたファイルがない場合は例外とする。
+        if (uploadFileItem == null) {
+            String message = "upload file is not specified.";
+            log(message);
+            throw new ServletException(message);
+        }
+
+        // アップロードされた画像ファイルをサーバに保管する。
+        storeImageFile(uploadFileItem);
+
+        // サムネイル画像の幅を決定する。
+        String mtwParam = paramMap.get("mtw");
+        int maxThumbWidth = getThumbnailWidth(mtwParam);
+
+        // サムネイル画像の高さを決定する。
+        String mthParam = paramMap.get("mth");
+        int maxThumbHeight = getThumbnailHeight(mthParam);
+
+        // プラットフォームに画像読み込みサポートがあるかどうかチェック。
+        String extension = File.getExtension(uploadFileItem.getName());
+        if (!ThumbnailFactory.isSupportedReaderFormat(extension)) {
+            String message = "this image format is not supported.";
+            throw new ServletException(message);
+        }
+
+        InputStream iStrm = null;
+        ByteArrayOutputStream baos = null;
+        byte[] thumbnailBytes = null;
+        try {
+            iStrm = uploadFileItem.getInputStream();
+            baos = new ByteArrayOutputStream();
+
+            ThumbnailFactory.createThumbnail(iStrm, baos,
+                maxThumbWidth, maxThumbHeight, extension);
+            thumbnailBytes = baos.toByteArray();
+
+            // サムネイルをクライアントへ返す方式
+            String outputType = "attachment";
+            if (paramMap.get("type").equals("inline")) {
+                outputType = "inline";
+            }
+            response.addHeader("Content-Disposition", outputType
+                    + "; filename=\"tn_"
+                    + File.getName(uploadFileItem.getName()) + "\"");
+
+            response.getOutputStream().write(thumbnailBytes);
+        } catch (IOException ioe) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, ioe.getMessage());
+        } finally {
+            IOUtils.closeQuietly(iStrm);
+            IOUtils.closeQuietly(baos);
+            uploadFileItem.delete();
+        }
+    }
+
+    /**
+     * パラメータ取り出し処理。
+     * @param request request
+     * @param paramMap paramMap
+     * @return uploadFileItem
+     * @throws ServletException FileUploadException
+     */
+    private FileItem extractParameters(final HttpServletRequest request,
+            Map<String, String> paramMap) throws ServletException {
+        FileItem uploadFileItem = null;
         try {
             @SuppressWarnings("unchecked")
             List<FileItem> itemList = 
@@ -212,83 +262,87 @@ public class ThumbServlet extends HttpServlet {
         } catch (FileUploadException fue) {
             throw new ServletException(fue);
         }
+        return uploadFileItem;
+    }
 
-        // アップロードされたファイルがない場合は例外とする。
-        if (uploadFileItem == null) {
-            String message = "upload file is not specified.";
-            log(message);
-            throw new ServletException(message);
-        }
-
-        // サムネイル画像の最大幅を決定する。
-        String mtwParam = paramMap.get("mtw");
-        if (mtwParam != null) {
-            try {
-                maxThumbWidth = Integer.parseInt(mtwParam);
-            } catch (NumberFormatException nfe) {
-                String message = "param:mtw needs number format.";
-                log(message);
-                throw new ServletException(message);
-            }
-        }
-        // サムネイル画像の最大高さを決定する。
-        String mthParam = paramMap.get("mth");
-        if (mthParam != null) {
-            try {
-                maxThumbHeight = Integer.parseInt(mthParam);
-            } catch (NumberFormatException nfe) {
-                String message = "param:mth needs number format.";
-                log(message);
-                throw new ServletException(message);
-            }
-        }
-
-        // アップロードされた画像ファイルをサーバに保管する。
+    /**
+     * アップロードされた画像ファイルをサーバに保管する。
+     * @param uploadFileItem uploadFileItem
+     * @throws FileNotFoundException FileNotFoundException
+     * @throws IOException IOException
+     */
+    private void storeImageFile(FileItem uploadFileItem) throws FileNotFoundException, IOException {
         File restoreFile = new File(System.getProperty("java.io.tmpdir")
                 + java.io.File.separator
                 + System.currentTimeMillis()
                 + "_" + new File(uploadFileItem.getName()).getName());
-        FileOutputStream fos = new FileOutputStream(restoreFile);
-        fos.write(uploadFileItem.get());
-        fos.close();
-
-        // プラットフォームに画像読み込みサポートがあるかどうかチェック。
-        String extension = File.getExtension(uploadFileItem.getName());
-        if (!ThumbnailFactory.isSupportedReaderFormat(extension)) {
-            String message = "this image format is not supported.";
-            throw new ServletException(message);
-        }
-
-        InputStream iStrm = null;
-        ByteArrayOutputStream baos = null;
-        byte[] thumbnailBytes = null;
+        FileOutputStream fos = null;
         try {
-            iStrm = uploadFileItem.getInputStream();
-            baos = new ByteArrayOutputStream();
-
-            ThumbnailFactory.createThumbnail(iStrm, baos,
-                maxThumbWidth, maxThumbHeight, extension);
-            thumbnailBytes = baos.toByteArray();
-        } catch (IOException ioe) {
-        	response.sendError(
-        			HttpServletResponse.SC_NOT_FOUND, ioe.getMessage());
-        	return;
+            fos = new FileOutputStream(restoreFile);
+            fos.write(uploadFileItem.get());
         } finally {
-        	IOUtils.closeQuietly(iStrm);
-        	IOUtils.closeQuietly(baos);
-            uploadFileItem.delete();
+            IOUtils.closeQuietly(fos);
         }
+    }
 
-        // サムネイルをクライアントへ返す方式
-        String outputType = "attachment";
-        if (paramMap.get("type").equals("inline")) {
-            outputType = "inline";
+    /**
+     * サムネイル画像の幅を決定する。
+     * @param mtwParam 該当パラメータ値
+     * @return サムネイル画像のwidth
+     * @throws ServletException NumberFormatException
+     */
+    protected int getThumbnailWidth(String mtwParam) throws ServletException {
+        return getThumbnailWidth(mtwParam, MAX_WIDTH);
+    }
+
+    /**
+     * サムネイル画像の幅を決定する。
+     * @param mtwParam 該当パラメータ値
+     * @param defaultValue パラメータ値が不正な場合の返却値
+     * @return サムネイル画像のwidth
+     * @throws ServletException NumberFormatException
+     */
+    protected int getThumbnailWidth(String mtwParam, int defaultValue) throws ServletException {
+        int maxThumbWidth = defaultValue;
+        if (mtwParam != null) {
+            try {
+                maxThumbWidth = Integer.parseInt(mtwParam);
+            } catch (NumberFormatException nfe) {
+//                String message = "param:mtw needs number format.";
+//                log(message);
+            }
         }
-        response.addHeader("Content-Disposition", outputType
-                + "; filename=\"tn_"
-                + File.getName(uploadFileItem.getName()) + "\"");
+        return maxThumbWidth;
+    }
 
-        response.getOutputStream().write(thumbnailBytes);
+    /**
+     * サムネイル画像の高さを決定する。
+     * @param mthParam 該当パラメータ値
+     * @return サムネイル画像のheight
+     * @throws ServletException NumberFormatException
+     */
+    protected int getThumbnailHeight(String mthParam) throws ServletException {
+        return getThumbnailHeight(mthParam, MAX_HEIGHT);
+    }
+
+    /**
+     * サムネイル画像の高さを決定する。
+     * @param mthParam 該当パラメータ値
+     * @param defaultValue パラメータ値が不正な場合の返却値
+     * @return サムネイル画像のheight
+     * @throws ServletException NumberFormatException
+     */
+    protected int getThumbnailHeight(String mthParam, int defaultValue) throws ServletException {
+        int maxThumbHeight = MAX_HEIGHT;
+        if (mthParam != null) {
+            try {
+                maxThumbHeight = Integer.parseInt(mthParam);
+            } catch (NumberFormatException nfe) {
+//                String message = "param:mth needs number format.";
+//                log(message);
+            }
+        }
+        return maxThumbHeight;
     }
 
 }

@@ -94,11 +94,16 @@ public class File extends java.io.File {
      */
     public static String getExtension(final String filename) {
     	if (null == filename) {
-    		return null;
+            return null;
     	}
         int i = filename.lastIndexOf('.');
         if (i > 0 && i < filename.length() - 1) {
-            return filename.substring(i + 1);
+            String ext = filename.substring(i + 1);
+            int index = ext.indexOf("&");
+            if (-1 != index) {
+                ext = ext.substring(0, index);
+            }
+            return ext;
         }
         return "";
     }

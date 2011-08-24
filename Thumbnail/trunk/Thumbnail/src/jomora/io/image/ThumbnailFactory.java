@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -44,7 +43,7 @@ public final class ThumbnailFactory {
     		final InputStream inStrm, final OutputStream outStrm,
     		final int maxThumbWidth, final int maxThumbHeight,
     		final String imageFormat)
-            throws IOException {
+        throws IOException {
         // 元画像
         BufferedImage image = ImageIO.read(inStrm);
         if (image == null) {
@@ -96,7 +95,7 @@ public final class ThumbnailFactory {
         String paramString = imageFormat;
         if (null == paramString || paramString.trim().length() == 0
         		|| !isSupportedWriterFormat(paramString)) {
-        	paramString = "jpg";
+            paramString = "jpg";
         }
         // サムネイル画像書き出し
         ImageIO.write(shrinkImage, paramString, outStrm);

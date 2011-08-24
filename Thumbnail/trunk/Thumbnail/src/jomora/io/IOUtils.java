@@ -11,37 +11,38 @@ import java.io.OutputStream;
  */
 public final class IOUtils {
 
-	/**
-	 * プライベートコンストラクタ.
-	 */
-	private IOUtils() {
-	}
+    /**
+     * プライベートコンストラクタ.
+     */
+    private IOUtils() {
+    }
 
-	/**
-	 * 例外をthrowせずにcloseする.
-	 * @param input 入力ストリーム
-	 */
-	public static void closeQuietly(final InputStream input) {
-		try {
-			if (null != input) {
-				input.close();
-			}
-		} catch (IOException ioe) {
-			ioe.getMessage();
-		}
-	}
+    /**
+     * 例外をthrowせずにcloseする.
+     * @param input 入力ストリーム
+     */
+    public static void closeQuietly(final InputStream input) {
+        try {
+            if (null != input) {
+                input.close();
+            }
+        } catch (IOException ioe) {
+            ioe.getMessage();
+        }
+    }
 
-	/**
-	 * 例外をthrowせずにcloseする.
-	 * @param output 出力ストリーム
-	 */
-	public static void closeQuietly(final OutputStream output) {
-		try {
-			if (null != output) {
-				output.close();
-			}
-		} catch (IOException ioe) {
-			ioe.getMessage();
-		}
-	}
+    /**
+     * 例外をthrowせずにcloseする.
+     * @param output 出力ストリーム
+     */
+    public static void closeQuietly(final OutputStream output) {
+        try {
+            if (null != output) {
+                output.close();
+            }
+        } catch (IOException ioe) {
+            ioe.getMessage();
+        }
+    }
+
 }
