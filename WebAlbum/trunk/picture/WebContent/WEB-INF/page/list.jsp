@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ page session="false" %>
 <%@ page import="jomora.picture.*,jomora.io.File,jomora.net.HtmlUtil,java.util.*" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -35,7 +36,7 @@
         <h3>操作方法</h3>
         <div class="acc-section">
 			<div class="acc-content">
-				<noscript style="color:red;">Enable JavaScript to view pictures.<br /></noscript>
+				<noscript><p style="color:red;">Enable JavaScript to view pictures.</p></noscript>
 				下のそれぞれをClickすると、それぞれが拡がって表示されます。<br />
 				右の「Expand All|Collapse All」は遅いです。動作完了まで、辛抱強く待ってください。
 <%

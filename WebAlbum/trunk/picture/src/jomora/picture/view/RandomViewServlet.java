@@ -20,6 +20,8 @@ public class RandomViewServlet extends javax.servlet.http.HttpServlet implements
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession(false);
+
 		PictureFileListManager pflm = PictureFileListManager.getInstance(getServletContext());
 		Map<String,FileInfo> fileInfoMap = pflm.getFileInfoMap();
 		

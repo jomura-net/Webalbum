@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page session="false" %>
 <%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.File,jomora.net.HtmlUtil" %>
 <html>
 <head>
@@ -11,6 +12,10 @@
 	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
 %>
 <title><%= htmlEncFilePath %> - 美しいものは愛でなくちゃ</title>
+<style>
+	table { border:1px solid; border-color:#bbb #555 #555 #bbb; }
+	td    { border:1px solid; border-color:#555 #bbb #bbb #555; }
+</style>
 <%
 	if (filePath.indexOf("@adult\\") != -1) {
 %>
@@ -56,7 +61,7 @@ window.onresize = resize;
 </div>
 <a href="javascript:sizeToOriginal()"><img src="<%= url %>" alt="<%= htmlEncFilePath %>" title="<%= htmlEncFilePath %>" border="0" name="main_image" /></a><br />
 <br />
-<table border="1">
+<table>
 <%
 	PictureFileListManager pflm = PictureFileListManager.getInstance(application);
 	String absoluteFilePath = pflm.getAbsoluteFilePath(filePath);
@@ -64,11 +69,11 @@ window.onresize = resize;
 	try {
 		Metadata metadata = com.drew.imaging.jpeg.JpegMetadataReader.readMetadata(jpegFile);
 		// iterate through metadata directories
-		java.util.Iterator directories = metadata.getDirectoryIterator();
+		java.util.Iterator<?> directories = metadata.getDirectoryIterator();
 		while (directories.hasNext()) {
 		    Directory directory = (Directory)directories.next();
 		    // iterate through tags and print to System.out
-		    java.util.Iterator tags = directory.getTagIterator();
+		    java.util.Iterator<?> tags = directory.getTagIterator();
 		    while (tags.hasNext()) {
 		        Tag tag = (Tag)tags.next();
 				try {

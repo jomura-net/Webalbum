@@ -30,6 +30,8 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.getSession(false);
+
 		String efpath = request.getParameter("efpath");
 		String t = request.getParameter("t");
 
