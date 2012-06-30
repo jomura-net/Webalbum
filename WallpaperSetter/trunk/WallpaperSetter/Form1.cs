@@ -8,6 +8,7 @@ using System.Web;
 using System.Diagnostics;
 using System.Configuration;
 using System.Drawing.Drawing2D;
+using System.Security;
 
 namespace WallpaperSetter
 {
@@ -24,11 +25,17 @@ namespace WallpaperSetter
                 Cycler.WindowsAPI.SetDesktopBackground(bmp,
                     Cycler.DesktopBackgroundStyle.Centered);
             }
+            catch (SecurityException se)
+            {
+                //イベントソースを作成できなかった場合
+                MessageBox.Show("初回のみ、管理者権限で起動してください。", "WallpaperSetter");
+                throw se;
+            }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error Occured",
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error, 
+                MessageBox.Show(e.Message, "WallpaperSetter",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
             }
@@ -36,7 +43,7 @@ namespace WallpaperSetter
 
         Bitmap GetImage(out string filePath)
         {
-            string image_url = "http://jomura.net/picture/random";
+            string image_url = ConfigurationSettings.AppSettings["ImageURL"];
             string adult = ConfigurationSettings.AppSettings["adult"];
             if (!string.IsNullOrEmpty(adult) && Boolean.Parse(adult))
             {
@@ -44,7 +51,7 @@ namespace WallpaperSetter
             }
             using (WebClient wc = new WebClient())
             {
-                wc.Headers.Add("Referer", "http://jomura.net/picture/");
+                wc.Headers.Add("Referer", image_url);
                 Bitmap bitmap = null;
                 using (Stream imageStrm = wc.OpenRead(image_url))
                 {
@@ -92,12 +99,28 @@ namespace WallpaperSetter
             string sLog = "Application";
             string sEvent = "Changed wallpaper into \"" + filePath + "\"";
 
-            if (!EventLog.SourceExists(sSource))
+            if (IsAdministrator() && !EventLog.SourceExists(sSource))
             {
                 EventLog.CreateEventSource(sSource, sLog);
             }
-
             EventLog.WriteEntry(sSource, sEvent);
+        }
+
+        /// <summary>
+        /// 現在アプリケーションを実行しているユーザーに管理者権限があるか調べる
+        /// </summary>
+        /// <returns>管理者権限がある場合はtrue。</returns>
+        static bool IsAdministrator()
+        {
+            //現在のユーザーを表すWindowsIdentityオブジェクトを取得する
+            System.Security.Principal.WindowsIdentity wi =
+                System.Security.Principal.WindowsIdentity.GetCurrent();
+            //WindowsPrincipalオブジェクトを作成する
+            System.Security.Principal.WindowsPrincipal wp =
+                new System.Security.Principal.WindowsPrincipal(wi);
+            //Administratorsグループに属しているか調べる
+            return wp.IsInRole(
+                System.Security.Principal.WindowsBuiltInRole.Administrator);
         }
     }
 }
