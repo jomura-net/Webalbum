@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -127,8 +128,11 @@ public class ThumbServlet extends HttpServlet {
         ByteArrayOutputStream baos = null;
         byte[] thumbnailBytes;
         try {
-            URL path = new URL(pathStr);
-            is = path.openStream();
+            URLConnection conn = new URL(pathStr).openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(10000);
+            conn.connect();
+            is = conn.getInputStream();
             baos = new ByteArrayOutputStream();
 
             ThumbnailFactory.createThumbnail(is, baos,

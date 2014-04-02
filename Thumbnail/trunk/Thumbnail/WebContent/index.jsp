@@ -17,7 +17,7 @@
 <input type="submit" value="ƒTƒ€ƒlƒCƒ‹ì¬" />
 </form>
 
-<iframe name="thumbnail" frameborder="0"></iframe>
+<iframe name="thumbnail" seamless style="border:none;"></iframe>
 
 </body>
 </html>
