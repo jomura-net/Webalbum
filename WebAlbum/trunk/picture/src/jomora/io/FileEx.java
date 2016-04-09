@@ -1,30 +1,27 @@
-/*
- * 作成日: 2004/12/31
- */
 package jomora.io;
 
 import java.net.URI;
 
 /**
  * 拡張Fileクラス
- * @author Jomora(http://jomora.bne.jp/)
+ * @version $Id$
  */
-public class File extends java.io.File {
+public class FileEx extends java.io.File {
 	private static final long serialVersionUID = 1L;
 
-	public File(String arg0) {
+	public FileEx(String arg0) {
         super(arg0);
     }
 
-    public File(URI arg0) {
+    public FileEx(URI arg0) {
         super(arg0);
     }
 
-    public File(java.io.File arg0, String arg1) {
+    public FileEx(java.io.File arg0, String arg1) {
         super(arg0, arg1);
     }
 
-    public File(String arg0, String arg1) {
+    public FileEx(String arg0, String arg1) {
         super(arg0, arg1);
     }
 
@@ -34,7 +31,7 @@ public class File extends java.io.File {
 	 * @return 拡張子を省いたファイル名
 	 */
 	public static String getName(String filename) {
-		return new File(filename).getName();
+		return new FileEx(filename).getName();
 	}
 
 	/**
@@ -52,7 +49,7 @@ public class File extends java.io.File {
 	 * @return 拡張子を省いたファイル名
 	 */
 	public static String getNameWithoutExtension(String filename) {
-		filename = new File(filename).getName();
+		filename = new FileEx(filename).getName();
 		int i = filename.lastIndexOf('.');
 		if (i > 0 && i < filename.length() - 1) {
 			return filename.substring(0, i);

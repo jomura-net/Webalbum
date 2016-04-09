@@ -1,14 +1,28 @@
 package jomora.io.crypt;
 
-import java.io.*;
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 
 /**
  * DES方式の秘密鍵(非公開鍵)を用いて暗号化・復号化を行う。
- * @author Jomora(http://jomora.bne.jp/)
+ * @version $Id$
  */
 public class CryptUtil {
 
@@ -324,65 +338,5 @@ public class CryptUtil {
         return outStr;
     }
 
-    /**
-     * テストメインメソッド
-     * @param args 引数
-     */
-    /*
-    public static void main(String args[]) {
-
-        CryptUtil testCrypt = null;
-
-        try {
-            testCrypt = new CryptUtil();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            System.out.println("args[0] : " + args[0]);
-
-            long startTime;
-            long[] time = new long[100];
-            long sum = 0;
-
-            String enc = testCrypt.encryptString(args[0]);
-System.out.println("enc : " + enc);
-            String dec = testCrypt.decryptString(enc);
-System.out.println("dec : " + dec);
-            long total = System.currentTimeMillis();
-            for (int i = 0; i < 100; i++ ) {
-                startTime = System.currentTimeMillis();
-                enc = testCrypt.encryptString(args[0]);
-                dec = testCrypt.decryptString(enc);
-                time[i] = System.currentTimeMillis() - startTime;
-//                System.out.print("time[" + i + "] = " + time[i] + "[msec]   ");
-                sum += time[i];
-            }
-            total = System.currentTimeMillis() - total;
-            System.out.println("平均は" + (total / 100) + "[msec]");
-
-            sum = 0;
-            String simpleEnc = simpleEncryptString(args[0]);
-System.out.println("simpleEnc : " + simpleEnc);
-            String simpleDec = simpleDecryptString(simpleEnc);
-System.out.println("simpleDec : " + simpleDec);
-            total = System.currentTimeMillis();
-            for (int i = 0; i < 100; i++ ) {
-                startTime = System.currentTimeMillis();
-                simpleEnc = simpleEncryptString(args[0]);
-                simpleDec = simpleDecryptString(simpleEnc);
-                time[i] = System.currentTimeMillis() - startTime;
-//                System.out.print("time[" + i + "] = " + time[i] + "[msec]   ");
-                sum += time[i];
-            }
-            total = System.currentTimeMillis() - total;
-            System.out.println("平均は" + (total / 100) + "[msec]");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }
 

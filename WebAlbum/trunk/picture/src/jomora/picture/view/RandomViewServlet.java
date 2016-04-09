@@ -5,21 +5,24 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jomora.io.File;
+import jomora.io.FileEx;
 import jomora.picture.FileInfo;
 import jomora.picture.PictureFileListManager;
 
 /**
- * Servlet implementation class for Servlet: RandomViewServlet
- *
+ * îCà”ÇÃâÊëúÇï‘Ç∑ÅB
+ * @version $Id$
  */
-public class RandomViewServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
+public class RandomViewServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.getSession(false);
 
 		PictureFileListManager pflm = PictureFileListManager.getInstance(getServletContext());
@@ -43,11 +46,10 @@ public class RandomViewServlet extends javax.servlet.http.HttpServlet implements
 		} while(!canView);
 
 		String efpath = fileInfoMap.get(filePath).getEncodeFilePath();
-
-		String url = "view/" + efpath + "." + File.getExtension(filePath);
+		String url = "view/" + efpath + "." + FileEx.getExtension(filePath);
 		
 		response.addHeader("PictureFilePath", java.net.URLEncoder.encode(filePath, "UTF-8"));
-		//response.sendRedirect(url);
 		getServletContext().getRequestDispatcher("/" + url).forward(request, response);
 	}
+
 }

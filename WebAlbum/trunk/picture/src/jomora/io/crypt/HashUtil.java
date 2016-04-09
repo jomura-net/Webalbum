@@ -4,8 +4,21 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+/**
+ * 各種ハッシュ値を生成する。
+ * @version $Id$
+ */
 public class HashUtil {
 
+	private HashUtil() {
+	}
+
+	/**
+	 * SHA-256ハッシュ(バイト配列)を生成し、BASE64エンコードして返す。
+	 * +-/= などが含まれることに留意。
+	 * @param text 元の文字列
+	 * @return ハッシュ値
+	 */
 	public static String sha2(String text) {
 		byte[] cipher_byte;
         MessageDigest md;
@@ -20,6 +33,11 @@ public class HashUtil {
         return Base64.getEncoder().encodeToString(cipher_byte);
 	}
 
+	/**
+	 * MD5ハッシュ(バイト配列)を生成し、16進数文字列に変換して返す。
+	 * @param text 元の文字列
+	 * @return ハッシュ値
+	 */
 	public static String md5(String text) {
 		byte[] cipher_byte;
         MessageDigest md;

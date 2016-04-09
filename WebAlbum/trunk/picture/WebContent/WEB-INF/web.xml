@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="Shift_JIS"?>
 
-<web-app id="picture" version="2.4"
-         xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app id="picture" version="3.1"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+         
+  <context-param>
+    <param-name>PictureDir</param-name>
+    <param-value>E:/picture</param-value>
+  </context-param>
 
   <filter>
   	<filter-name>ReferFilter</filter-name>
@@ -32,6 +37,14 @@
   <servlet>
     <servlet-name>TimerServlet</servlet-name>
     <servlet-class>jomora.picture.schedule.TimerServlet</servlet-class>
+    <init-param>
+      <param-name>FirstTime</param-name>
+      <param-value>04:10:00</param-value>
+    </init-param>
+    <init-param>
+      <param-name>Period</param-name>
+      <param-value>86400000</param-value>
+    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
@@ -77,29 +90,5 @@
   <welcome-file-list>
   	<welcome-file>list</welcome-file>
   </welcome-file-list>
-
-  <env-entry>
-  	<env-entry-name>PictureDir</env-entry-name>
-  	<env-entry-type>java.lang.String</env-entry-type>
-  	<env-entry-value>E:/picture</env-entry-value>
-  </env-entry>
-  <!--
-  <env-entry>
-  	<env-entry-name>TempFilePath</env-entry-name>
-  	<env-entry-type>java.lang.String</env-entry-type>
-  	<env-entry-value>C:/WINDOWS/Temp/thumbData_picture.obj</env-entry-value>
-  </env-entry>
-  -->
-
-  <env-entry>
-  	<env-entry-name>FirstTime</env-entry-name>
-  	<env-entry-type>java.lang.String</env-entry-type>
-  	<env-entry-value>04:10:00</env-entry-value>
-  </env-entry>
-  <env-entry>
-  	<env-entry-name>Period</env-entry-name>
-  	<env-entry-type>java.lang.Long</env-entry-type>
-  	<env-entry-value>86400000</env-entry-value>
-  </env-entry>
 
 </web-app>

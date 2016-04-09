@@ -1,6 +1,3 @@
-/*
- * 作成日: 2004/12/31
- */
 package jomora.io.image;
 
 import java.awt.geom.AffineTransform;
@@ -15,8 +12,7 @@ import javax.imageio.ImageReader;
 
 /**
  * サムネイル画像作成クラス
- * @author Jomora(http://jomora.bne.jp/)
- * @version 2005.10.01 createThumbnail()にformatNameを追加
+ * @version $Id$
  */
 public class ThumbnailFactory {
 

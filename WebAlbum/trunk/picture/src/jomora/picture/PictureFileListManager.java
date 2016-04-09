@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jomora.picture;
 
 import java.io.ByteArrayOutputStream;
@@ -19,21 +16,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import jomora.io.FileEx;
 import jomora.io.crypt.CryptUtil;
 import jomora.io.crypt.HashUtil;
 import jomora.io.image.ThumbnailFactory;
 
 /**
- * 画像ファイルを取り扱うクラス
- * 
- * @author jomora
+ * 画像ファイルを取り扱う処理をまとめたクラス。
+ * サムネイル画像データも保持する。
+ * @version $Id$
  */
 public class PictureFileListManager implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -54,15 +50,15 @@ public class PictureFileListManager implements Serializable {
 		return getInstance(context, false);
 	}
 
-	public synchronized static PictureFileListManager getInstance(ServletContext context,
+	public static PictureFileListManager getInstance(ServletContext context,
 			boolean updateFileList) throws IOException, FileNotFoundException {
 		PictureFileListManager pflm = (PictureFileListManager) context.getAttribute("fileListManager");
 		if (pflm == null) {
-			pflm = new PictureFileListManager();
+			pflm = new PictureFileListManager(context.getInitParameter("PictureDir"));
 			context.setAttribute("fileListManager", pflm);
 		} else {
 			if (updateFileList) {
-				pflm.setFileInfoMap();
+				pflm.syncFileInfoMap();
 			}
 		}
 		return pflm;
@@ -75,7 +71,7 @@ public class PictureFileListManager implements Serializable {
 	 * @return コンテントタイプを表す文字列
 	 */
 	public static String getContentType(String fileName) {
-		String extension = jomora.io.File.getExtension(fileName).toLowerCase();
+		String extension = FileEx.getExtension(fileName).toLowerCase();
 		if (extension.equals("jpg") || extension.equals("jpeg")) {
 			return "image/jpeg";
 		} else if (extension.equals("gif")) {
@@ -109,26 +105,46 @@ public class PictureFileListManager implements Serializable {
 	 */
 	private Map<String, FileInfo> fileInfoMap = new TreeMap<String, FileInfo>(new FilePathComparator());
 
-	/*
-	 * fileInfoMapオブジェクトを格納する一時ファイル名
-	 */
-	private String tmpFileName;
-
 	/**
 	 * コンストラクタ。 newInstance()メソッドから呼び出される。
 	 */
-	@SuppressWarnings("unchecked")
-	private PictureFileListManager() throws FileNotFoundException, IOException {
+	private PictureFileListManager(String picDir) throws FileNotFoundException, IOException {
+		log.info("start creating FileInfo.");
 		long startTime = System.currentTimeMillis();
 
-		setPictureDir();
+		File dir = new File(picDir);
+		if (!dir.exists()) {
+			throw new FileNotFoundException(picDir + "is not found.");
+		}
+		this.pictureDir = dir.getAbsolutePath();
 
-		//画像ファイル情報をファイルから取得する。
+		restoreFileInfoMap();
+		syncFileInfoMap();
+
+		long spanTime = System.currentTimeMillis() - startTime;
+		log.info("finish creating FileInfo." + fileInfoMap.size() + " image files are loaded in " + spanTime + " ms.");
+	}
+
+	/**
+	 * fileInfoMapオブジェクトを格納する一時ファイル名を生成する。
+	 * @return ファイルパス文字列
+	 */
+	private String getTmpFileName() {
+		return new File(System.getProperty("java.io.tmpdir"),
+				"thumbData_" + HashUtil.md5(this.pictureDir)).getAbsolutePath();
+	}
+
+	/**
+	 * 画像ファイル情報を一時ファイルから取得する。
+	 */
+	@SuppressWarnings("unchecked")
+	private void restoreFileInfoMap() {
+		String tmpFileName = getTmpFileName();
 		if (new File(tmpFileName).exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(tmpFileName);
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				this.fileInfoMap = (Map<String, FileInfo>)ois.readObject();
+				this.fileInfoMap = (Map<String, FileInfo>) ois.readObject();
 				ois.close();
 				fis.close();
 				log.info("Loaded fileInfoMap from " + tmpFileName);
@@ -136,28 +152,6 @@ public class PictureFileListManager implements Serializable {
 				log.error(e.getMessage(), e);
 			}
 		}
-
-		setFileInfoMap();
-
-		long spanTime = System.currentTimeMillis() - startTime;
-		log.info(fileInfoMap.size() + " image files are loaded in " + spanTime + " ms.");
-	}
-
-	private void setPictureDir() throws FileNotFoundException, IOException {
-		InitialContext context;
-		try {
-			context = new InitialContext();
-
-			String _pictureDir = (String)context.lookup("java:comp/env/PictureDir");
-			File dir = new File(_pictureDir);
-			if (!dir.exists()) {
-				throw new FileNotFoundException(_pictureDir + "is not found.");
-			}
-			pictureDir = dir.getAbsolutePath();
-		} catch (NamingException e) {
-			throw new IOException("The parameter 'PictureDir' can not be read.");
-		}
-		this.tmpFileName = System.getProperty("java.io.tmpdir") + File.separator + "thumbData_" + HashUtil.md5(pictureDir);
 	}
 
 	/**
@@ -171,7 +165,8 @@ public class PictureFileListManager implements Serializable {
 	/**
 	 * ファイルシステム上のファイル情報と、fileInfoMapを同期する。
 	 */
-	private synchronized void setFileInfoMap() {
+	private synchronized void syncFileInfoMap() {
+		String tmpFileName = getTmpFileName();
 		// 存在しないファイルを抹消
 		Set<String> keySet1 = this.fileInfoMap.keySet();
 		String[] keys = keySet1.toArray(new String[keySet1.size()]);
@@ -245,6 +240,9 @@ public class PictureFileListManager implements Serializable {
 				}
 			}
 		});
+		if (null == files) {
+			return currentFileList;
+		}
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile()) {
 				currentFileList.add(files[i].getAbsolutePath().substring(
@@ -275,7 +273,7 @@ public class PictureFileListManager implements Serializable {
 		FileInputStream fis = null;
 		ByteArrayOutputStream baos = null;
 		String absoluteFilePath = getAbsoluteFilePath(filePath);
-		String extension = jomora.io.File.getExtension(absoluteFilePath)
+		String extension = jomora.io.FileEx.getExtension(absoluteFilePath)
 				.toLowerCase();
 
 		if (!ThumbnailFactory.isSupportedWriterFormat(extension)) {
