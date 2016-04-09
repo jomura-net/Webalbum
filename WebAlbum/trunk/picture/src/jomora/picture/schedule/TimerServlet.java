@@ -4,8 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpServlet;
  * Servlet implementation class TimerServlet
  */
 public class TimerServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 	private Timer timer1;
 
@@ -23,13 +22,13 @@ public class TimerServlet extends HttpServlet {
 		//開始時刻firstTimeと実行間隔peroidをweb.xmlから取得する。
 		String[] FirstTimeParts = {"04", "00", "00"};
 		long peroid = 86400000;
-		try {
-			InitialContext context = new InitialContext();
-			String firstTime = (String)context.lookup("java:comp/env/FirstTime");
-			FirstTimeParts = firstTime.split(":");
-			peroid = ((Long)context.lookup("java:comp/env/Period")).longValue();
-		} catch (NamingException e) {
-			throw new ServletException("The parameter 'FirstTime' or 'Period' can not be read.", e);
+		String firstTimeStr = getInitParameter("FirstTime");
+		if (null != firstTimeStr) {
+			FirstTimeParts = firstTimeStr.split(":");
+		}
+		String periodStr = getInitParameter("Period");
+		if (null != periodStr) {
+			peroid = Long.parseLong(periodStr);
 		}
 
 		Calendar cal = Calendar.getInstance();

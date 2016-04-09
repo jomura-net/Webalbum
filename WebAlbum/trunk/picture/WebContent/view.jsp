@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page session="false" %>
-<%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.File,jomora.net.HtmlUtil" %>
+<%@ page import="com.drew.metadata.*,jomora.picture.PictureFileListManager,jomora.io.FileEx,jomora.net.HtmlUtil" %>
 <html>
 <head>
 <meta name="robots" content="noindex,nofollow" />
@@ -9,8 +9,7 @@
 	String efpath = request.getParameter("efpath");
 	String filePath = jomora.io.crypt.CryptUtil.simpleDecryptString(efpath);
 	String htmlEncFilePath = HtmlUtil.HTMLEncode(filePath);
-//	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
-	String url = "view/" + efpath + "." + File.getExtension(filePath);
+	String url = "view/" + efpath + "." + FileEx.getExtension(filePath);
 %>
 <title><%= htmlEncFilePath %> - 美しいものは愛でなくちゃ</title>
 <style>
@@ -66,7 +65,7 @@ window.onresize = resize;
 <%
 	PictureFileListManager pflm = PictureFileListManager.getInstance(application);
 	String absoluteFilePath = pflm.getAbsoluteFilePath(filePath);
-	File jpegFile = new File(absoluteFilePath);
+	FileEx jpegFile = new FileEx(absoluteFilePath);
 	try {
 		Metadata metadata = com.drew.imaging.jpeg.JpegMetadataReader.readMetadata(jpegFile);
 		// iterate through metadata directories

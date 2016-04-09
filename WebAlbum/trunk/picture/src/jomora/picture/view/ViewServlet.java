@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,10 +19,11 @@ import jomora.io.crypt.HashUtil;
 import jomora.picture.PictureFileListManager;
 
 /**
- * Servlet implementation class for Servlet: ViewServlet
- * 
+ * 指定された画像を返す。
+ * @version $Id$
  */
-public class ViewServlet extends javax.servlet.http.HttpServlet implements Servlet {
+public class ViewServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	private static final Log log = LogFactory.getLog(ViewServlet.class);
@@ -51,6 +52,15 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 		String absoluteFilePath = pflm.getAbsoluteFilePath(filePath);
 		File fileObj = new File(absoluteFilePath);
 
+		//ファイル存在チェック
+		if (!fileObj.exists()) {
+			log.warn("Can't find the image file " + absoluteFilePath + ".");
+			pflm.removeFileInfo(filePath);
+			// throw new FileNotFoundException("Can't find the image file " + filePath + ".");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
 		long lastModified = fileObj.lastModified();
 		String eTag = absoluteFilePath + lastModified;
 		if ("1".equals(t)) {
@@ -73,15 +83,7 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 		try {
 			sos = response.getOutputStream();
 			if (!"1".equals(t)) {
-				//ファイル存在チェック
-				if (!fileObj.exists()) {
-					log.warn("Can't find the image file " + absoluteFilePath + ".");
-					pflm.removeFileInfo(filePath);
-					// throw new FileNotFoundException("Can't find the image file " +
-					// filePath + ".");
-					return;
-				}
-
+				//原寸画像
 				FileInputStream fis = null;
 				try {
 					fis = new FileInputStream(absoluteFilePath);
@@ -96,6 +98,7 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 					}
 				}
 			} else {
+				//サムネイル
 				byte[] bytes = pflm.getFileInfoMap().get(filePath).getThumbnail();
 				sos.write(bytes);
 			}

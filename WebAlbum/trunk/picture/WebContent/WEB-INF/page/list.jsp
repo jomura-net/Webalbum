@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ page session="false" %>
-<%@ page import="jomora.picture.*,jomora.io.File,jomora.net.HtmlUtil,java.util.*" %>
+<%@ page import="jomora.picture.*,jomora.io.FileEx,jomora.net.HtmlUtil,java.util.*" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta name="robots" content="noindex,nofollow" />
@@ -55,7 +55,7 @@
 	    FileInfo fileInfo = (FileInfo)fileInfoMap.get(filePath);
 		String encFilePath = fileInfo.getEncodeFilePath();
 		String filePath4cat = filePath.replaceFirst("@adult\\\\", "");
-		int index = filePath4cat.lastIndexOf(File.separator);
+		int index = filePath4cat.lastIndexOf(FileEx.separator);
 		String catStr;
 		if (index > 0) {
 			catStr = filePath4cat.substring(0, index);
@@ -69,20 +69,7 @@
 					+ "\" href=\"#" + encCatStr + "\">" + catStr
 					+ "</a></h3><div class=\"acc-section\">"
 					+ "<div class=\"acc-content\"> ");
-//            out.println("\n\t\t\t</div>\n\t\t</div>\n\t</li>\n\t<li>\n\t\t<h3>" + catStr
-//                    + "</h3>\n\t\t<div class=\"acc-section\">\n"
-//                    + "\t\t\t<div class=\"acc-content\"> ");
 		}
-		//「画像の非同期呼び出し」はコメントアウトここから
-/*
-        String url = "view/" + fileCount + "." + File.getExtension(filePath) + "?efpath=" + encFilePath;
-        String htmlEncFilePath = HtmlUtil.HTMLEncode(filePath);
-%><a href="view.jsp?efpath=<%= encFilePath %>">
-<img src="<%= url %>&amp;t=1" alt="<%= htmlEncFilePath %>" title="<%= htmlEncFilePath %>" <%-- class="corner iradius16 ishade50" --%> />
-</a>
-<%
-*/
-        //「画像の非同期呼び出し」はコメントアウトここまで
     }
 %>
 			</div>
