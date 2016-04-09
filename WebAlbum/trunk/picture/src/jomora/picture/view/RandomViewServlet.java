@@ -44,7 +44,7 @@ public class RandomViewServlet extends javax.servlet.http.HttpServlet implements
 
 		String efpath = fileInfoMap.get(filePath).getEncodeFilePath();
 
-		String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
+		String url = "view/" + efpath + "." + File.getExtension(filePath);
 		
 		response.addHeader("PictureFilePath", java.net.URLEncoder.encode(filePath, "UTF-8"));
 		//response.sendRedirect(url);

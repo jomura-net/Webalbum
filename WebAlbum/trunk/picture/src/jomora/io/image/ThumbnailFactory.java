@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
 
 /**
  * サムネイル画像作成クラス
@@ -40,8 +41,16 @@ public class ThumbnailFactory {
         int maxThumbWidth,
         int maxThumbHeight, String formatName)
         throws IOException {
-        //元画像
-        BufferedImage image = ImageIO.read(inStrm);
+    	
+    	ImageIO.setUseCache(false);
+
+    	//元画像
+//        BufferedImage image = ImageIO.read(inStrm);
+        ImageReader ireader = (ImageReader) ImageIO.getImageReadersByFormatName(formatName).next();
+        ireader.setInput(ImageIO.createImageInputStream(inStrm));
+        BufferedImage image = ireader.read(0);
+        ireader.dispose();
+        
         if (image == null) {
         	throw new IOException("Can't read the original image."); 
         }

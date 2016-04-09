@@ -10,6 +10,7 @@
   	<filter-class>jomora.picture.ReferFilter</filter-class>
   </filter>
 
+<!--
   <filter-mapping>
   	<filter-name>ReferFilter</filter-name>
   	<servlet-name>ViewServlet</servlet-name>
@@ -18,7 +19,8 @@
   	<filter-name>ReferFilter</filter-name>
   	<servlet-name>RandomViewServlet</servlet-name>
   </filter-mapping>
-
+-->
+  
   <servlet>
   	<servlet-name>ListServlet</servlet-name>
   	<jsp-file>/WEB-INF/page/list.jsp</jsp-file>
@@ -79,13 +81,15 @@
   <env-entry>
   	<env-entry-name>PictureDir</env-entry-name>
   	<env-entry-type>java.lang.String</env-entry-type>
-  	<env-entry-value>D:/workspace/picture/images</env-entry-value>
+  	<env-entry-value>E:/picture</env-entry-value>
   </env-entry>
+  <!--
   <env-entry>
   	<env-entry-name>TempFilePath</env-entry-name>
   	<env-entry-type>java.lang.String</env-entry-type>
   	<env-entry-value>C:/WINDOWS/Temp/thumbData_picture.obj</env-entry-value>
   </env-entry>
+  -->
 
   <env-entry>
   	<env-entry-name>FirstTime</env-entry-name>

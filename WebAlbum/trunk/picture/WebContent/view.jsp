@@ -9,7 +9,8 @@
 	String efpath = request.getParameter("efpath");
 	String filePath = jomora.io.crypt.CryptUtil.simpleDecryptString(efpath);
 	String htmlEncFilePath = HtmlUtil.HTMLEncode(filePath);
-	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
+//	String url = "view/" + (int)(Math.random() * 1000) + "." + File.getExtension(filePath) + "?efpath=" + efpath;
+	String url = "view/" + efpath + "." + File.getExtension(filePath);
 %>
 <title><%= htmlEncFilePath %> - 美しいものは愛でなくちゃ</title>
 <style>

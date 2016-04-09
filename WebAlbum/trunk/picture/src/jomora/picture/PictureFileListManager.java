@@ -23,11 +23,12 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
-import jomora.io.crypt.CryptUtil;
-import jomora.io.image.ThumbnailFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import jomora.io.crypt.CryptUtil;
+import jomora.io.crypt.HashUtil;
+import jomora.io.image.ThumbnailFactory;
 
 /**
  * 画像ファイルを取り扱うクラス
@@ -53,7 +54,7 @@ public class PictureFileListManager implements Serializable {
 		return getInstance(context, false);
 	}
 
-	public static PictureFileListManager getInstance(ServletContext context,
+	public synchronized static PictureFileListManager getInstance(ServletContext context,
 			boolean updateFileList) throws IOException, FileNotFoundException {
 		PictureFileListManager pflm = (PictureFileListManager) context.getAttribute("fileListManager");
 		if (pflm == null) {
@@ -143,8 +144,9 @@ public class PictureFileListManager implements Serializable {
 	}
 
 	private void setPictureDir() throws FileNotFoundException, IOException {
+		InitialContext context;
 		try {
-			InitialContext context = new InitialContext();
+			context = new InitialContext();
 
 			String _pictureDir = (String)context.lookup("java:comp/env/PictureDir");
 			File dir = new File(_pictureDir);
@@ -152,12 +154,10 @@ public class PictureFileListManager implements Serializable {
 				throw new FileNotFoundException(_pictureDir + "is not found.");
 			}
 			pictureDir = dir.getAbsolutePath();
-
-			this.tmpFileName = (String)context.lookup("java:comp/env/TempFilePath");
-
 		} catch (NamingException e) {
-			throw new IOException("The parameter 'PictureDir' or 'TempFilePath' can not be read.");
+			throw new IOException("The parameter 'PictureDir' can not be read.");
 		}
+		this.tmpFileName = System.getProperty("java.io.tmpdir") + File.separator + "thumbData_" + HashUtil.md5(pictureDir);
 	}
 
 	/**

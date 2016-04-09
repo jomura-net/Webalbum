@@ -11,11 +11,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jomora.io.crypt.CryptUtil;
-import jomora.picture.PictureFileListManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import jomora.io.crypt.CryptUtil;
+import jomora.io.crypt.HashUtil;
+import jomora.picture.PictureFileListManager;
 
 /**
  * Servlet implementation class for Servlet: ViewServlet
@@ -32,7 +33,10 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 			HttpServletResponse response) throws ServletException, IOException {
 		request.getSession(false);
 
-		String efpath = request.getParameter("efpath");
+		String noneMatch = request.getHeader("If-None-Match");
+//		String modifiedSince = request.getHeader("If-Modified-Since");
+
+		String efpath = request.getPathInfo().substring(1, request.getPathInfo().lastIndexOf('.'));
 		String t = request.getParameter("t");
 
 		ServletContext sc = this.getServletContext();
@@ -45,24 +49,39 @@ public class ViewServlet extends javax.servlet.http.HttpServlet implements Servl
 			throw new ServletException(e);
 		}
 		String absoluteFilePath = pflm.getAbsoluteFilePath(filePath);
+		File fileObj = new File(absoluteFilePath);
+
+		long lastModified = fileObj.lastModified();
+		String eTag = absoluteFilePath + lastModified;
+		if ("1".equals(t)) {
+			eTag = "t" + eTag;
+		}
+		eTag = HashUtil.sha2(eTag);
+		if (eTag.equals(noneMatch)) {
+			response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
+			return;
+		}
 
 		response.setHeader("Content-Disposition", PictureFileListManager
 				.getContentDisposition(absoluteFilePath));
 		response.setContentType(PictureFileListManager
 				.getContentType(absoluteFilePath));
+		response.setDateHeader("Last-Modified", lastModified);
+		response.setHeader("ETag", eTag);
+
 		ServletOutputStream sos = null;
 		try {
 			sos = response.getOutputStream();
 			if (!"1".equals(t)) {
 				//ファイル存在チェック
-				if (!new File(absoluteFilePath).exists()) {
+				if (!fileObj.exists()) {
 					log.warn("Can't find the image file " + absoluteFilePath + ".");
 					pflm.removeFileInfo(filePath);
 					// throw new FileNotFoundException("Can't find the image file " +
 					// filePath + ".");
 					return;
 				}
-	
+
 				FileInputStream fis = null;
 				try {
 					fis = new FileInputStream(absoluteFilePath);

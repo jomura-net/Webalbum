@@ -41,10 +41,10 @@ public class ListService {
 		Map<String, FileInfo> fileInfoMap = pflm.getFileInfoMap();
 		List<FindResult> results = new ArrayList<FindResult>();
 
-		int fileCount = 0;
+//		int fileCount = 0;
 		java.util.Iterator<String> iter = fileInfoMap.keySet().iterator();
 		while (iter.hasNext()) {
-			fileCount++;
+//			fileCount++;
 			String filePath = iter.next();
 			boolean canView = withAdult || filePath.indexOf("@adult\\") == -1;
 			if (!canView) {
@@ -62,9 +62,11 @@ public class ListService {
 			if (catStr.equals(targetCatStr)) {
 				FindResult result = new FindResult();
 				result.linkUrl = "view.jsp?efpath=" + encFilePath;
-				result.imageUrl = "view/" + fileCount + "."
-						+ File.getExtension(filePath) + "?efpath="
-						+ encFilePath + "&amp;t=1";
+//				result.imageUrl = "view/" + encFilePath + "."
+//						+ File.getExtension(filePath) + "?efpath="
+//						+ encFilePath + "&amp;t=1";
+				result.imageUrl = "view/" + encFilePath + "."
+						+ File.getExtension(filePath) + "?t=1";
 				result.title = HtmlUtil.HTMLEncode(filePath);
 				results.add(result);
 			}
