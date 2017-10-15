@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Net;
-using System.IO;
-using System.Web;
-using System.Diagnostics;
 using System.Configuration;
+using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using System.Net;
 using System.Security;
+using System.Windows.Forms;
 
 namespace WallpaperSetter
 {
@@ -22,8 +20,15 @@ namespace WallpaperSetter
                 string filePath;
                 Bitmap bmp = GetImage(out filePath);
                 LogEvent(filePath);
-                Cycler.WindowsAPI.SetDesktopBackground(bmp,
-                    Cycler.DesktopBackgroundStyle.Centered);
+
+//                Cycler.WindowsAPI.SetDesktopBackground(bmp,
+//                    Cycler.DesktopBackgroundStyle.Centered);
+
+                string localPath = Path.Combine(
+                    System.Environment.GetFolderPath(
+                        Environment.SpecialFolder.MyPictures), "desktop.bmp");
+                bmp.Save(localPath, System.Drawing.Imaging.ImageFormat.Bmp);
+                Wallpaper.SetWallpaper(localPath, WallpaperStyle.Center);
             }
             catch (SecurityException se)
             {
