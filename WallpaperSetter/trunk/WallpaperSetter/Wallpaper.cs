@@ -60,9 +60,10 @@ namespace WallpaperSetter
             const int SPIF_UPDATEINIFILE = 0x0001; // 設定を更新する
             const int SPIF_SENDWININICHANGE = 0x0002; // 設定の更新を全てのアプリケーションに通知(WM_SETTIMGCHANGE)する
 
-            var flags = (Environment.OSVersion.Platform == PlatformID.Win32NT)
-              ? SPIF_SENDWININICHANGE
-              : SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE;
+            //var flags = (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            //  ? SPIF_SENDWININICHANGE
+            //  : SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE;
+            var flags = SPIF_SENDWININICHANGE | SPIF_UPDATEINIFILE;
 
             // 壁紙となるファイルを設定する
             // なお、XP以前の場合はBMP形式のみが指定可能、Vista/7では加えてJPEG形式も指定可能
