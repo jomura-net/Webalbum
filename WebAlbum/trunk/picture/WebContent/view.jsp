@@ -69,14 +69,14 @@ window.onresize = resize;
 	try {
 		Metadata metadata = com.drew.imaging.jpeg.JpegMetadataReader.readMetadata(jpegFile);
 		// iterate through metadata directories
-		java.util.Iterator<?> directories = metadata.getDirectoryIterator();
+		java.util.Iterator<Directory> directories = metadata.getDirectories().iterator();
 		while (directories.hasNext()) {
-		    Directory directory = (Directory)directories.next();
+		    Directory directory = directories.next();
 		    // iterate through tags and print to System.out
-		    java.util.Iterator<?> tags = directory.getTagIterator();
+		    java.util.Iterator<?> tags = directory.getTags().iterator();
 		    while (tags.hasNext()) {
 		        Tag tag = (Tag)tags.next();
-				try {
+// 				try {
 			        String desc = "&nbsp;";
 			        if (tag.getDescription() != null) {
 				        desc = tag.getDescription().trim();
@@ -84,10 +84,10 @@ window.onresize = resize;
 			        }
 			        out.println("<tr><td>" + tag.getDirectoryName() + " : " + tag.getTagType()
 			        		+ "</td><td>" + tag.getTagName() + "</td><td>" + desc + "</td></tr>");
-				} catch(com.drew.metadata.MetadataException me) {
-					log("Can't read metadata from " + filePath, me);
-			        out.println("<tr><td>(can't read)</td><td>(can't read)</td><td>(can't read)</td></tr>");
-				}
+// 				} catch(com.drew.metadata.MetadataException me) {
+// 					log("Can't read metadata from " + filePath, me);
+// 			        out.println("<tr><td>(can't read)</td><td>(can't read)</td><td>(can't read)</td></tr>");
+// 				}
 		    }
 		}
 	} catch(com.drew.imaging.jpeg.JpegProcessingException e) {

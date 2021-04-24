@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="Shift_JIS"?>
+<?xml version="1.0" ?>
 
-<web-app id="picture" version="3.1"
-         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-         
+<web-app 
+    version="3.1" 
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
   <context-param>
     <param-name>PictureDir</param-name>
     <param-value>E:/picture</param-value>
@@ -39,7 +40,7 @@
     <servlet-class>jomora.picture.schedule.TimerServlet</servlet-class>
     <init-param>
       <param-name>FirstTime</param-name>
-      <param-value>04:10:00</param-value>
+      <param-value>05:10:00</param-value>
     </init-param>
     <init-param>
       <param-name>Period</param-name>
@@ -58,7 +59,7 @@
 	    <param-name>config</param-name>
 	    <param-value>
 	    {
-	      "debug": true,
+	      "debug": false,
 	      "encoding": "UTF-8",
 	      "expire": true,
 	      "mappings": {
