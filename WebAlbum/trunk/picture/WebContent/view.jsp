@@ -24,7 +24,7 @@
 <%
 	}
 %>
-<script><!--
+<script>
 var oiw;
 function resize() {
 	var cw = document.body.clientWidth - 40;
@@ -44,11 +44,14 @@ function sizeToOriginal() {
 	}
 }
 window.onload = function() {
-	oiw = document.main_image.width;
-	resize();
+	document.main_image.addEventListener("load", function(e) {
+		oiw = document.main_image.width;
+		resize();
+		window.onresize = resize;
+	});
+	document.main_image.src = '<%= url %>';
 }
-window.onresize = resize;
-//--></script>
+</script>
 </head>
 <body>
 <div align="center">
@@ -59,7 +62,7 @@ window.onresize = resize;
 // --></script>
 <noscript>JavaScriptを有効にすると、画像サイズを調節できます。</noscript>
 </div>
-<a href="javascript:sizeToOriginal()"><img src="<%= url %>" alt="<%= htmlEncFilePath %>" title="<%= htmlEncFilePath %>" border="0" name="main_image" /></a><br />
+<a href="javascript:sizeToOriginal()"><img alt="<%= htmlEncFilePath %>" title="<%= htmlEncFilePath %>" border="0" name="main_image" /></a><br />
 <br />
 <table>
 <%
