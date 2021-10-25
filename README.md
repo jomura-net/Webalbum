@@ -56,6 +56,7 @@ eclipse project なので。
 
 1. *.configファイルで、"ImageURL"と"FitScreen"を設定する。
 　FitScreen : 画像サイズをdesktopのサイズに合わせて伸張するか？ true/false
+1. Windowsの表示スケールが100%でない場合には、実行ファイルのショートカットの"互換性"タブで、「高い DPI スケールの動作を上書きします。」にチェックを入れる。すると、壁紙サイズがデスクトップに合うようになる。
 
 <br /><br /><br />
 
